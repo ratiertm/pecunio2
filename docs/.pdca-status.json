@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-03-24T13:25:32.168Z",
+  "lastUpdated": "2026-03-24T13:40:16.913Z",
   "activeFeatures": [
     "pecunio2",
     "market",
@@ -29,9 +29,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-23T21:05:39.767Z",
-        "lastUpdated": "2026-03-23T22:20:34.801Z"
+        "lastUpdated": "2026-03-24T13:40:16.913Z"
       },
-      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/app/page.tsx"
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/lib/store.test.ts"
     },
     "market": {
       "phase": "do",
@@ -42,9 +42,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-23T21:06:06.433Z",
-        "lastUpdated": "2026-03-23T21:33:23.203Z"
+        "lastUpdated": "2026-03-24T13:38:00.926Z"
       },
-      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/lib/market/demo-data.ts"
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/lib/market/provider.test.ts"
     },
     "trading": {
       "phase": "do",
@@ -81,9 +81,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-23T21:08:22.711Z",
-        "lastUpdated": "2026-03-23T21:35:31.558Z"
+        "lastUpdated": "2026-03-24T13:38:13.465Z"
       },
-      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/lib/learning/content.ts"
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/lib/learning/content.test.ts"
     },
     "test": {
       "phase": "do",
@@ -224,7 +224,7 @@
   "session": {
     "startedAt": "2026-03-23T19:50:48.256Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-03-24T13:25:32.168Z"
+    "lastActivity": "2026-03-24T13:40:16.913Z"
   },
   "history": [
     {
@@ -566,6 +566,66 @@
     {
       "timestamp": "2026-03-24T13:25:32.168Z",
       "feature": "trade",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T13:37:12.401Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T13:37:41.681Z",
+      "feature": "market",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T13:38:00.926Z",
+      "feature": "market",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T13:38:13.465Z",
+      "feature": "learning",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T13:38:24.331Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T13:39:07.135Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T13:39:28.100Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T13:39:34.195Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T13:39:40.052Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T13:40:16.913Z",
+      "feature": "pecunio2",
       "phase": "do",
       "action": "updated"
     }

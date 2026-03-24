@@ -227,3 +227,8 @@ export function getStore(): LocalStore {
   if (!_store) _store = new LocalStore();
   return _store;
 }
+
+// For testing only
+export function resetStore(): void {
+  _store = null;
+}
