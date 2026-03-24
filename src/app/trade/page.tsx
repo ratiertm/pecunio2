@@ -17,7 +17,7 @@ import {
 } from "recharts";
 
 export default function TradePage() {
-  const { portfolio, trades, refresh } = useApp();
+  const { portfolio, trades, holdings, refresh } = useApp();
   const canTrade = useCanTrade();
 
   if (!canTrade) {
@@ -204,6 +204,7 @@ export default function TradePage() {
     store.addTrade({
       portfolio_id: portfolio.id,
       ticker: selected.ticker,
+      ticker_name: selected.name,
       market: selected.market,
       type: tradeType,
       qty: qtyNum,
@@ -500,6 +501,43 @@ export default function TradePage() {
             </div>
           )}
 
+          {/* My holdings */}
+          {holdings.length > 0 && (
+            <div className="card rounded-2xl p-5">
+              <h3 className="mb-4 text-[15px] font-bold text-text-primary">보유 종목</h3>
+              <div className="space-y-1">
+                {holdings.map((h) => {
+                  const curPrice = h.quote?.price ?? h.avg_price;
+                  const pnl = ((curPrice - h.avg_price) / h.avg_price) * 100;
+                  const isUp = pnl >= 0;
+                  return (
+                    <button
+                      key={h.id}
+                      onClick={() => handleSelect({ ticker: h.ticker, name: h.ticker, market: h.market })}
+                      className="flex w-full items-center justify-between rounded-xl px-3 py-3 text-left transition-colors hover:bg-surface-hover/50"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary-light text-xs font-bold text-primary">
+                          {h.qty}
+                        </span>
+                        <div>
+                          <p className="text-[14px] font-semibold text-text-primary">{h.ticker}</p>
+                          <p className="text-[12px] text-text-tertiary">평균 {h.avg_price.toLocaleString()}원</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-[14px] font-semibold text-text-primary">{curPrice.toLocaleString()}원</p>
+                        <p className={`text-[12px] font-semibold ${isUp ? "text-success" : "text-danger"}`}>
+                          {isUp ? "+" : ""}{pnl.toFixed(1)}%
+                        </p>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           {/* Recent trades */}
           <div className="card rounded-2xl p-5">
             <h3 className="mb-4 text-[15px] font-bold text-text-primary">최근 거래</h3>
@@ -524,7 +562,7 @@ export default function TradePage() {
                         {t.type === "buy" ? "매수" : "매도"}
                       </span>
                       <div>
-                        <p className="text-[14px] font-semibold text-text-primary">{t.ticker}</p>
+                        <p className="text-[14px] font-semibold text-text-primary">{t.ticker_name || t.ticker}</p>
                         {t.bias_alert_shown && (
                           <span className="text-[11px] font-medium text-warning">편향감지</span>
                         )}

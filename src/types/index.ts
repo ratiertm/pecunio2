@@ -42,6 +42,7 @@ export interface Trade {
   id: string;
   portfolio_id: string;
   ticker: string;
+  ticker_name?: string;
   market: Market;
   type: TradeType;
   qty: number;
