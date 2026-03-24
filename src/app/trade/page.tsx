@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { useApp } from "@/lib/context";
 import { getStore } from "@/lib/store";
 import { getDemoQuote, searchDemoTickers, getDemoHistory } from "@/lib/market/demo-data";
@@ -42,6 +42,7 @@ export default function TradePage() {
   }
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<TickerSearchResult[]>([]);
+  const [searching, setSearching] = useState(false);
   const [selected, setSelected] = useState<TickerSearchResult | null>(null);
   const [quote, setQuote] = useState<Quote | null>(null);
   const [history, setHistory] = useState<{ date: string; price: number }[]>([]);
@@ -52,22 +53,34 @@ export default function TradePage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const handleSearch = useCallback(async (q: string) => {
+  const debounceRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  const handleSearch = useCallback((q: string) => {
     setSearchQuery(q);
-    if (q.length < 1) {
+    if (q.length < 2) {
       setSearchResults([]);
+      setSearching(false);
       return;
     }
-    // Try real API first, fall back to demo
-    try {
-      const res = await fetch(`/api/market/search?q=${encodeURIComponent(q)}`);
-      const data = await res.json();
-      if (data.results && data.results.length > 0) {
-        setSearchResults(data.results);
-        return;
-      }
-    } catch {}
-    setSearchResults(searchDemoTickers(q));
+
+    setSearching(true);
+
+    // Debounce: wait 300ms after last keystroke
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/market/search?q=${encodeURIComponent(q)}`);
+        const data = await res.json();
+        if (data.results && data.results.length > 0) {
+          setSearchResults(data.results);
+          setSearching(false);
+          return;
+        }
+      } catch {}
+      // Fallback to demo
+      setSearchResults(searchDemoTickers(q));
+      setSearching(false);
+    }, 300);
   }, []);
 
   const handleSelect = useCallback(async (result: TickerSearchResult & { price?: number; change?: number; change_percent?: number }) => {
@@ -287,7 +300,12 @@ export default function TradePage() {
             className="w-full rounded-2xl border-2 border-card-border bg-white py-3.5 pl-12 pr-5 text-[15px] text-text-primary placeholder-text-tertiary transition-all duration-200 focus:border-primary/50 focus:outline-none focus:ring-4 focus:ring-primary/10"
           />
         </div>
-        {searchResults.length > 0 && (
+        {searching && searchResults.length === 0 && (
+          <div className="absolute z-10 mt-2 w-full rounded-2xl border border-card-border bg-white px-5 py-4 text-center text-[14px] text-text-tertiary shadow-xl shadow-black/5">
+            검색 중...
+          </div>
+        )}
+        {!searching && searchResults.length > 0 && (
           <ul className="absolute z-10 mt-2 max-h-56 w-full overflow-auto rounded-2xl border border-card-border bg-white shadow-xl shadow-black/5">
             {searchResults.map((r) => (
               <li key={r.ticker}>
