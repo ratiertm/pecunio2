@@ -30,14 +30,22 @@ export default function DashboardPage() {
         : { value: `${biasScores?.total ?? "—"}/100`, sub: undefined };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 pb-20 sm:pb-0">
       <OnboardingBanner />
 
-      <div className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-2 text-center text-xs font-semibold text-blue-700">
-        모의 거래 모드 — 가상 자금 {portfolio.initial_cash.toLocaleString()}원으로 시작
+      {/* Sim mode banner */}
+      <div className="flex items-center justify-center gap-2 rounded-2xl bg-primary-light/60 px-5 py-3">
+        <span className="relative flex h-2 w-2">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-40" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+        </span>
+        <span className="text-[13px] font-semibold text-primary">
+          모의 거래 모드 — 가상 자금 {portfolio.initial_cash.toLocaleString()}원으로 시작
+        </span>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+      {/* Stats grid */}
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <StatCard
           label="총 자산"
           value={`${(totalAssets / 10000).toFixed(0)}만원`}
@@ -59,15 +67,17 @@ export default function DashboardPage() {
         />
       </div>
 
+      {/* Portfolio chart */}
       <div>
-        <h2 className="mb-3 text-sm font-semibold text-gray-700">포트폴리오 성장</h2>
+        <h2 className="section-title mb-4">포트폴리오 성장</h2>
         <PortfolioChart data={chartData} />
       </div>
 
+      {/* Holdings */}
       <div>
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-gray-700">보유 종목</h2>
-          <span className="text-xs text-gray-400">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="section-title">보유 종목</h2>
+          <span className="text-[13px] font-medium text-text-tertiary">
             현금: {portfolio.current_cash.toLocaleString()}원
           </span>
         </div>
@@ -79,18 +89,20 @@ export default function DashboardPage() {
         />
       </div>
 
+      {/* CTA for first trade */}
       {tradeCount === 0 && (
-        <div className="rounded-lg border border-gray-200 bg-white p-6 text-center">
-          <p className="mb-2 text-2xl">👋</p>
-          <p className="font-semibold">첫 거래를 시작해보세요!</p>
-          <p className="mt-1 text-sm text-gray-500">
-            매매 탭에서 종목을 검색하고 가상 자금으로 연습할 수 있습니다
+        <div className="card animate-fade-in-up flex flex-col items-center rounded-2xl p-10 text-center">
+          <span className="mb-4 text-5xl">👋</span>
+          <p className="text-xl font-bold text-text-primary">첫 거래를 시작해보세요!</p>
+          <p className="mt-2 max-w-sm text-[15px] leading-relaxed text-text-secondary">
+            매매 탭에서 종목을 검색하고 가상 자금으로 안전하게 연습할 수 있습니다
           </p>
           <a
             href="/trade"
-            className="mt-3 inline-block rounded-md bg-gray-900 px-4 py-2 text-sm font-semibold text-white"
+            className="btn-primary mt-5 inline-flex items-center gap-2 rounded-2xl px-8 py-3.5 text-[15px]"
           >
             매매 시작하기
+            <span>→</span>
           </a>
         </div>
       )}

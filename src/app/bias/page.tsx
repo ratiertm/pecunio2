@@ -18,6 +18,13 @@ const BIAS_DESCRIPTIONS: Record<string, string> = {
   herd: "거래량 급증 종목에 편승하는 패턴",
 };
 
+const BIAS_ICONS: Record<string, string> = {
+  loss_aversion: "📉",
+  overconfidence: "💪",
+  confirmation: "🔍",
+  herd: "🐑",
+};
+
 export default function BiasPage() {
   const { tradeCount, biasScores, trades } = useApp();
   const store = getStore();
@@ -30,59 +37,61 @@ export default function BiasPage() {
   const phase = tradeCount < 10 ? "cold" : tradeCount < 30 ? "observe" : "score";
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 pb-20 sm:pb-0">
       {/* Overall score */}
-      <div className="rounded-lg border border-gray-200 bg-white p-6 text-center">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
-          나의 편향 종합 점수
-        </p>
-        {phase === "cold" ? (
-          <>
-            <p className="text-5xl font-bold text-gray-300">—</p>
-            <p className="mt-2 text-sm text-gray-400">
-              {10 - tradeCount}건 더 매매하면 편향 관찰이 시작됩니다
-            </p>
-            <div className="mx-auto mt-3 h-2 w-48 overflow-hidden rounded-full bg-gray-200">
-              <div
-                className="h-full rounded-full bg-gray-400 transition-all"
-                style={{ width: `${(tradeCount / 10) * 100}%` }}
-              />
-            </div>
-            <p className="mt-1 text-[10px] text-gray-400">{tradeCount}/10 매매 완료</p>
-          </>
-        ) : phase === "observe" ? (
-          <>
-            <p className="text-5xl font-bold text-orange-400">관찰중</p>
-            <p className="mt-2 text-sm text-gray-500">
-              패턴을 분석하고 있습니다. {30 - tradeCount}건 더 매매하면 점수가 활성화됩니다.
-            </p>
-            <div className="mx-auto mt-3 h-2 w-48 overflow-hidden rounded-full bg-gray-200">
-              <div
-                className="h-full rounded-full bg-orange-400 transition-all"
-                style={{ width: `${(tradeCount / 30) * 100}%` }}
-              />
-            </div>
-            <p className="mt-1 text-[10px] text-gray-400">{tradeCount}/30 매매 완료</p>
-          </>
-        ) : (
-          <>
-            <p className="text-6xl font-bold text-gray-900">
-              {liveScores.total}
-              <span className="text-2xl text-gray-400">/100</span>
-            </p>
-            <p className="mt-2 text-sm text-gray-500">
-              {liveScores.total >= 80
-                ? "우수 — 편향 통제력이 뛰어납니다!"
-                : liveScores.total >= 60
-                  ? "양호 — 개선 가능한 영역이 있습니다"
-                  : "주의 — 편향 훈련이 필요합니다"}
-            </p>
-          </>
-        )}
+      <div className="card overflow-hidden rounded-2xl text-center">
+        <div className="bg-gradient-to-br from-primary-light/50 to-white p-8">
+          <p className="section-title mb-4">
+            나의 편향 종합 점수
+          </p>
+          {phase === "cold" ? (
+            <>
+              <p className="text-6xl font-bold text-card-border">—</p>
+              <p className="mt-3 text-[15px] text-text-secondary">
+                {10 - tradeCount}건 더 매매하면 편향 관찰이 시작됩니다
+              </p>
+              <div className="mx-auto mt-4 h-3 w-56 overflow-hidden rounded-full bg-card-border">
+                <div
+                  className="animate-progress h-full rounded-full bg-text-tertiary transition-all"
+                  style={{ width: `${(tradeCount / 10) * 100}%` }}
+                />
+              </div>
+              <p className="mt-2 text-[12px] text-text-tertiary">{tradeCount}/10 매매 완료</p>
+            </>
+          ) : phase === "observe" ? (
+            <>
+              <p className="text-5xl font-bold text-warning">관찰중</p>
+              <p className="mt-3 text-[15px] text-text-secondary">
+                패턴을 분석하고 있습니다. {30 - tradeCount}건 더 매매하면 점수가 활성화됩니다.
+              </p>
+              <div className="mx-auto mt-4 h-3 w-56 overflow-hidden rounded-full bg-card-border">
+                <div
+                  className="animate-progress h-full rounded-full bg-warning transition-all"
+                  style={{ width: `${(tradeCount / 30) * 100}%` }}
+                />
+              </div>
+              <p className="mt-2 text-[12px] text-text-tertiary">{tradeCount}/30 매매 완료</p>
+            </>
+          ) : (
+            <>
+              <p className="text-7xl font-bold text-text-primary">
+                {liveScores.total}
+                <span className="text-2xl text-text-tertiary">/100</span>
+              </p>
+              <p className="mt-3 text-[15px] text-text-secondary">
+                {liveScores.total >= 80
+                  ? "우수 — 편향 통제력이 뛰어납니다!"
+                  : liveScores.total >= 60
+                    ? "양호 — 개선 가능한 영역이 있습니다"
+                    : "주의 — 편향 훈련이 필요합니다"}
+              </p>
+            </>
+          )}
+        </div>
       </div>
 
       {/* Individual bias scores */}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {(["loss_aversion", "overconfidence"] as const).map((type) => {
           const score = liveScores[type === "loss_aversion" ? "lossAversion" : "overconfidence"];
           const isActive =
@@ -94,51 +103,59 @@ export default function BiasPage() {
           ).length;
 
           return (
-            <div key={type} className="rounded-lg border border-gray-200 bg-white p-4">
-              <div className="mb-2 flex items-center justify-between">
-                <p className="text-sm font-semibold">{BIAS_LABELS[type]}</p>
+            <div key={type} className="card rounded-2xl p-5">
+              <div className="mb-3 flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-xl">{BIAS_ICONS[type]}</span>
+                  <p className="text-[15px] font-bold text-text-primary">{BIAS_LABELS[type]}</p>
+                </div>
                 {isActive && score !== null ? (
                   <span
-                    className={`text-lg font-bold ${
+                    className={`rounded-xl px-3 py-1 text-lg font-bold ${
                       score >= 70
-                        ? "text-green-600"
+                        ? "bg-success-light text-success"
                         : score >= 50
-                          ? "text-orange-500"
-                          : "text-red-500"
+                          ? "bg-warning-light text-warning"
+                          : "bg-danger-light text-danger"
                     }`}
                   >
-                    {score}/100
+                    {score}
                   </span>
                 ) : (
-                  <span className="text-sm text-gray-400">
+                  <span className="rounded-xl bg-surface-hover px-3 py-1 text-[13px] font-medium text-text-tertiary">
                     {phase === "cold" ? "비활성" : "관찰중"}
                   </span>
                 )}
               </div>
 
               {isActive && score !== null ? (
-                <div className="mb-2 h-2 overflow-hidden rounded-full bg-gray-200">
+                <div className="mb-3 h-2.5 overflow-hidden rounded-full bg-card-border">
                   <div
-                    className={`h-full rounded-full transition-all ${
+                    className={`animate-progress h-full rounded-full transition-all ${
                       score >= 70
-                        ? "bg-green-500"
+                        ? "bg-success"
                         : score >= 50
-                          ? "bg-orange-400"
-                          : "bg-red-500"
+                          ? "bg-warning"
+                          : "bg-danger"
                     }`}
                     style={{ width: `${score}%` }}
                   />
                 </div>
               ) : (
-                <div className="mb-2 h-2 rounded-full bg-gray-100" />
+                <div className="mb-3 h-2.5 rounded-full bg-card-border" />
               )}
 
-              <p className="text-xs text-gray-500">{BIAS_DESCRIPTIONS[type]}</p>
+              <p className="text-[14px] leading-relaxed text-text-secondary">{BIAS_DESCRIPTIONS[type]}</p>
 
               {eventCount > 0 && (
-                <p className="mt-2 text-[11px] text-gray-400">
-                  감지 {eventCount}회 · 극복 {overcomeCount}회
-                </p>
+                <div className="mt-3 flex gap-3 text-[12px]">
+                  <span className="rounded-lg bg-surface-hover px-2 py-1 font-medium text-text-tertiary">
+                    감지 {eventCount}회
+                  </span>
+                  <span className="rounded-lg bg-success-light px-2 py-1 font-medium text-success">
+                    극복 {overcomeCount}회
+                  </span>
+                </div>
               )}
             </div>
           );
@@ -148,38 +165,46 @@ export default function BiasPage() {
         {(["confirmation", "herd"] as const).map((type) => (
           <div
             key={type}
-            className="rounded-lg border border-gray-200 bg-gray-50 p-4 opacity-50"
+            className="card rounded-2xl p-5 opacity-50"
           >
-            <div className="mb-2 flex items-center justify-between">
-              <p className="text-sm font-semibold">{BIAS_LABELS[type]}</p>
-              <span className="rounded bg-gray-200 px-2 py-0.5 text-[10px] text-gray-500">
+            <div className="mb-3 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <span className="text-xl">{BIAS_ICONS[type]}</span>
+                <p className="text-[15px] font-bold text-text-primary">{BIAS_LABELS[type]}</p>
+              </div>
+              <span className="rounded-full bg-surface-hover px-3 py-1 text-[11px] font-semibold text-text-tertiary">
                 Phase 2
               </span>
             </div>
-            <div className="mb-2 h-2 rounded-full bg-gray-200" />
-            <p className="text-xs text-gray-500">{BIAS_DESCRIPTIONS[type]}</p>
+            <div className="mb-3 h-2.5 rounded-full bg-card-border" />
+            <p className="text-[14px] leading-relaxed text-text-secondary">{BIAS_DESCRIPTIONS[type]}</p>
           </div>
         ))}
       </div>
 
       {/* Bias event timeline */}
       <div>
-        <h2 className="mb-3 text-sm font-semibold text-gray-700">편향 이벤트 기록</h2>
+        <h2 className="section-title mb-4">편향 이벤트 기록</h2>
         {events.length === 0 ? (
-          <div className="rounded-lg border border-gray-200 bg-white p-8 text-center text-sm text-gray-400">
-            {tradeCount < 10
-              ? "매매를 시작하면 편향 감지 이벤트가 여기에 표시됩니다"
-              : "아직 편향 이벤트가 감지되지 않았습니다. 좋은 징후입니다!"}
+          <div className="card flex flex-col items-center rounded-2xl p-10 text-center">
+            <span className="mb-3 text-4xl">
+              {tradeCount < 10 ? "🌱" : "🌟"}
+            </span>
+            <p className="text-[15px] font-medium text-text-secondary">
+              {tradeCount < 10
+                ? "매매를 시작하면 편향 감지 이벤트가 여기에 표시됩니다"
+                : "아직 편향 이벤트가 감지되지 않았습니다. 좋은 징후입니다!"}
+            </p>
           </div>
         ) : (
-          <div className="overflow-hidden rounded-lg border border-gray-200">
+          <div className="card overflow-hidden rounded-2xl">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-100 bg-gray-50 text-xs text-gray-500">
-                  <th className="px-4 py-2 text-left font-medium">시간</th>
-                  <th className="px-4 py-2 text-left font-medium">편향 유형</th>
-                  <th className="px-4 py-2 text-left font-medium">종목</th>
-                  <th className="px-4 py-2 text-right font-medium">결과</th>
+                <tr className="border-b border-card-border bg-surface-hover/50 text-[13px] text-text-tertiary">
+                  <th className="px-5 py-3.5 text-left font-medium">시간</th>
+                  <th className="px-5 py-3.5 text-left font-medium">편향 유형</th>
+                  <th className="hidden px-5 py-3.5 text-left font-medium sm:table-cell">종목</th>
+                  <th className="px-5 py-3.5 text-right font-medium">결과</th>
                 </tr>
               </thead>
               <tbody>
@@ -190,22 +215,28 @@ export default function BiasPage() {
                   .map((event, i) => {
                     const ctx = event.context_json as Record<string, string>;
                     return (
-                      <tr key={i} className="border-b border-gray-50 last:border-0">
-                        <td className="px-4 py-2.5 text-xs text-gray-400">
+                      <tr
+                        key={i}
+                        className="border-b border-card-border/50 transition-colors last:border-0 hover:bg-surface-hover/30"
+                      >
+                        <td className="px-5 py-3.5 text-[13px] text-text-tertiary">
                           {new Date().toLocaleDateString("ko-KR")}
                         </td>
-                        <td className="px-4 py-2.5">
-                          <span className="rounded bg-orange-100 px-2 py-0.5 text-xs font-medium text-orange-700">
+                        <td className="px-5 py-3.5">
+                          <span className="inline-flex items-center gap-1.5 rounded-lg bg-warning-light px-2.5 py-1 text-[12px] font-semibold text-warning">
+                            {BIAS_ICONS[event.bias_type]}
                             {BIAS_LABELS[event.bias_type]}
                           </span>
                         </td>
-                        <td className="px-4 py-2.5 text-xs">{ctx?.ticker || "—"}</td>
-                        <td className="px-4 py-2.5 text-right">
+                        <td className="hidden px-5 py-3.5 text-[13px] text-text-secondary sm:table-cell">
+                          {ctx?.ticker || "—"}
+                        </td>
+                        <td className="px-5 py-3.5 text-right">
                           <span
-                            className={`text-xs font-semibold ${
+                            className={`rounded-lg px-2.5 py-1 text-[12px] font-bold ${
                               event.outcome === "overcome"
-                                ? "text-green-600"
-                                : "text-red-500"
+                                ? "bg-success-light text-success"
+                                : "bg-danger-light text-danger"
                             }`}
                           >
                             {event.outcome === "overcome" ? "극복 성공" : "편향 발동"}
@@ -222,16 +253,21 @@ export default function BiasPage() {
 
       {/* AI Coach recommendation (teaser) */}
       {tradeCount >= 10 && (
-        <div className="rounded-lg border-2 border-gray-900 bg-gray-50 p-4">
-          <p className="mb-1 text-xs font-bold text-gray-900">AI 코치 추천 훈련</p>
-          <p className="text-sm text-gray-700">
-            {liveScores.lossAversion !== null && liveScores.lossAversion < 60
-              ? "손실 회피 점수가 낮습니다. '30분 규칙 챌린지'를 시도해보세요 — 매도 결정을 30분 뒤에 재검토하는 훈련입니다."
-              : "편향 분석 데이터를 수집 중입니다. 매매를 계속하면 더 정확한 분석이 가능합니다."}
-          </p>
-          <p className="mt-2 rounded bg-gray-200 px-3 py-1.5 text-center text-xs text-gray-500">
-            AI 코치 전체 기능은 Phase 2에서 활성화됩니다
-          </p>
+        <div className="card overflow-hidden rounded-2xl border-2 border-primary/20">
+          <div className="bg-gradient-to-r from-primary-light/50 to-white p-6">
+            <div className="mb-2 flex items-center gap-2">
+              <span className="text-xl">🤖</span>
+              <p className="text-[15px] font-bold text-primary">AI 코치 추천 훈련</p>
+            </div>
+            <p className="text-[15px] leading-relaxed text-text-secondary">
+              {liveScores.lossAversion !== null && liveScores.lossAversion < 60
+                ? "손실 회피 점수가 낮습니다. '30분 규칙 챌린지'를 시도해보세요 — 매도 결정을 30분 뒤에 재검토하는 훈련입니다."
+                : "편향 분석 데이터를 수집 중입니다. 매매를 계속하면 더 정확한 분석이 가능합니다."}
+            </p>
+            <div className="mt-4 rounded-xl bg-surface-hover px-4 py-3 text-center text-[13px] font-medium text-text-tertiary">
+              AI 코치 전체 기능은 Phase 2에서 활성화됩니다
+            </div>
+          </div>
         </div>
       )}
     </div>

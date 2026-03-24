@@ -21,12 +21,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${geistSans.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col bg-gray-50 font-sans">
+      <body className="flex min-h-full flex-col bg-background font-sans text-text-primary">
         <AppProvider>
           <Nav />
-          <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6">
+          <main className="mx-auto w-full max-w-5xl flex-1 px-5 py-8 sm:px-8">
             {children}
           </main>
+          <footer className="pb-6 pt-4 text-center text-[13px] text-text-tertiary">
+            pecunio2 — 투자 심리 훈련
+          </footer>
         </AppProvider>
       </body>
     </html>

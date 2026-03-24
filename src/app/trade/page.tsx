@@ -22,18 +22,21 @@ export default function TradePage() {
 
   if (!canTrade) {
     return (
-      <div className="mx-auto max-w-md py-12 text-center">
-        <p className="mb-3 text-4xl">🔒</p>
-        <h2 className="text-lg font-bold">매매 기능이 잠겨 있습니다</h2>
-        <p className="mt-2 text-sm text-gray-500">
-          기초 학습을 먼저 완료해주세요. 2개 레슨을 마치면 매매를 시작할 수 있습니다.
-        </p>
-        <a
-          href="/learn"
-          className="mt-4 inline-block rounded-md bg-gray-900 px-6 py-2.5 text-sm font-semibold text-white"
-        >
-          학습 시작하기
-        </a>
+      <div className="mx-auto max-w-md py-16 text-center">
+        <div className="card mx-auto flex flex-col items-center rounded-2xl p-10">
+          <span className="mb-4 text-5xl">🔒</span>
+          <h2 className="text-xl font-bold text-text-primary">매매 기능이 잠겨 있습니다</h2>
+          <p className="mt-3 text-[15px] leading-relaxed text-text-secondary">
+            기초 학습을 먼저 완료해주세요. 2개 레슨을 마치면 매매를 시작할 수 있습니다.
+          </p>
+          <a
+            href="/learn"
+            className="btn-primary mt-6 inline-flex items-center gap-2 rounded-2xl px-8 py-3.5 text-[15px]"
+          >
+            학습 시작하기
+            <span>→</span>
+          </a>
+        </div>
       </div>
     );
   }
@@ -233,36 +236,48 @@ export default function TradePage() {
   }
 
   const recentTrades = trades.slice(0, 5);
-  const changeColor = quote && quote.change_percent >= 0 ? "text-green-600" : "text-red-500";
+  const changeColor = quote && quote.change_percent >= 0 ? "text-success" : "text-danger";
 
   return (
-    <div className="space-y-4">
-      <div className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-2 text-center text-xs font-semibold text-blue-700">
-        모의 거래 모드 — 잔액: {portfolio.current_cash.toLocaleString()}원
+    <div className="space-y-5 pb-20 sm:pb-0">
+      {/* Balance banner */}
+      <div className="flex items-center justify-center gap-2 rounded-2xl bg-primary-light/60 px-5 py-3">
+        <span className="relative flex h-2 w-2">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-40" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+        </span>
+        <span className="text-[13px] font-semibold text-primary">
+          모의 거래 모드 — 잔액: {portfolio.current_cash.toLocaleString()}원
+        </span>
       </div>
 
       {/* Search */}
       <div className="relative">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => handleSearch(e.target.value)}
-          placeholder="종목 검색 (예: 삼성전자, SK하이닉스, TIGER)"
-          className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
-        />
+        <div className="relative">
+          <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-lg text-text-tertiary">
+            🔍
+          </span>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => handleSearch(e.target.value)}
+            placeholder="종목 검색 (예: 삼성전자, SK하이닉스, TIGER)"
+            className="w-full rounded-2xl border-2 border-card-border bg-white py-3.5 pl-12 pr-5 text-[15px] text-text-primary placeholder-text-tertiary transition-all duration-200 focus:border-primary/50 focus:outline-none focus:ring-4 focus:ring-primary/10"
+          />
+        </div>
         {searchResults.length > 0 && (
-          <ul className="absolute z-10 mt-1 max-h-48 w-full overflow-auto rounded-lg border border-gray-200 bg-white shadow-lg">
+          <ul className="absolute z-10 mt-2 max-h-56 w-full overflow-auto rounded-2xl border border-card-border bg-white shadow-xl shadow-black/5">
             {searchResults.map((r) => (
               <li key={r.ticker}>
                 <button
-                  className="flex w-full items-center justify-between px-4 py-2.5 text-left text-sm hover:bg-gray-50"
+                  className="flex w-full items-center justify-between px-5 py-3.5 text-left transition-colors hover:bg-surface-hover"
                   onClick={() => handleSelect(r)}
                 >
                   <span>
-                    <span className="font-semibold">{r.name}</span>
-                    <span className="ml-2 text-gray-400">{r.ticker}</span>
+                    <span className="text-[15px] font-semibold text-text-primary">{r.name}</span>
+                    <span className="ml-2 text-[13px] text-text-tertiary">{r.ticker}</span>
                   </span>
-                  <span className="rounded bg-gray-100 px-1.5 py-0.5 text-[10px] text-gray-500">
+                  <span className="rounded-lg bg-surface-hover px-2 py-1 text-[11px] font-medium text-text-tertiary">
                     {r.market}
                   </span>
                 </button>
@@ -272,37 +287,50 @@ export default function TradePage() {
         )}
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-5 md:grid-cols-2">
         {/* Left: Order */}
-        <div className="space-y-4">
+        <div className="space-y-5">
           {selected && quote ? (
             <>
-              <div className="rounded-lg border border-gray-200 bg-white p-4">
+              {/* Price card */}
+              <div className="card rounded-2xl p-5">
                 <div className="flex items-baseline justify-between">
-                  <h3 className="font-semibold">{selected.name}</h3>
-                  <span className="rounded bg-gray-100 px-1.5 py-0.5 text-[10px] text-gray-500">
+                  <h3 className="text-[17px] font-bold text-text-primary">{selected.name}</h3>
+                  <span className="rounded-lg bg-surface-hover px-2 py-1 text-[11px] font-medium text-text-tertiary">
                     {selected.ticker}
                   </span>
                 </div>
-                <p className="mt-1 text-2xl font-bold">{quote.price.toLocaleString()}원</p>
-                <p className={`text-sm ${changeColor}`}>
-                  {quote.change_percent >= 0 ? "+" : ""}{quote.change_percent}% ({quote.change >= 0 ? "+" : ""}{quote.change.toLocaleString()}원)
+                <p className="mt-2 text-3xl font-bold tracking-tight text-text-primary">
+                  {quote.price.toLocaleString()}
+                  <span className="ml-1 text-base font-medium text-text-tertiary">원</span>
+                </p>
+                <p className={`mt-1 text-[15px] font-semibold ${changeColor}`}>
+                  {quote.change_percent >= 0 ? "+" : ""}{quote.change_percent}%
+                  <span className="ml-1.5 text-[13px] font-normal">
+                    ({quote.change >= 0 ? "+" : ""}{quote.change.toLocaleString()}원)
+                  </span>
                 </p>
               </div>
 
-              <div className="rounded-lg border border-gray-200 bg-white p-4">
-                <div className="mb-3 flex gap-2">
+              {/* Order form */}
+              <div className="card rounded-2xl p-5">
+                {/* Buy/Sell toggle */}
+                <div className="mb-5 flex gap-2 rounded-xl bg-surface-hover p-1">
                   <button
-                    className={`flex-1 rounded-md py-2 text-sm font-semibold ${
-                      tradeType === "buy" ? "bg-green-600 text-white" : "border border-gray-300 text-gray-500"
+                    className={`flex-1 rounded-xl py-2.5 text-[15px] font-semibold transition-all duration-200 ${
+                      tradeType === "buy"
+                        ? "bg-success text-white shadow-md shadow-success/20"
+                        : "text-text-tertiary hover:text-text-secondary"
                     }`}
                     onClick={() => setTradeType("buy")}
                   >
                     매수
                   </button>
                   <button
-                    className={`flex-1 rounded-md py-2 text-sm font-semibold ${
-                      tradeType === "sell" ? "bg-red-500 text-white" : "border border-gray-300 text-gray-500"
+                    className={`flex-1 rounded-xl py-2.5 text-[15px] font-semibold transition-all duration-200 ${
+                      tradeType === "sell"
+                        ? "bg-danger text-white shadow-md shadow-danger/20"
+                        : "text-text-tertiary hover:text-text-secondary"
                     }`}
                     onClick={() => setTradeType("sell")}
                   >
@@ -310,22 +338,27 @@ export default function TradePage() {
                   </button>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-5">
+                  {/* Qty */}
                   <div>
-                    <label className="mb-1 block text-xs text-gray-500">수량</label>
+                    <label className="mb-2 block text-[13px] font-semibold text-text-secondary">수량</label>
                     <input
                       type="number"
                       min="1"
                       value={qty}
                       onChange={(e) => setQty(e.target.value)}
                       placeholder="수량 입력"
-                      className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none"
+                      className="w-full rounded-xl border-2 border-card-border bg-white px-4 py-3 text-[15px] text-text-primary transition-all duration-200 focus:border-primary/50 focus:outline-none focus:ring-4 focus:ring-primary/10"
                     />
                   </div>
 
+                  {/* Confidence */}
                   <div>
-                    <label className="mb-1 block text-xs text-gray-500">
-                      확신도 ({confidence}/5)
+                    <label className="mb-2 block text-[13px] font-semibold text-text-secondary">
+                      확신도
+                      <span className="ml-2 rounded-lg bg-primary-light px-2 py-0.5 text-[12px] font-bold text-primary">
+                        {confidence}/5
+                      </span>
                     </label>
                     <input
                       type="range"
@@ -333,27 +366,45 @@ export default function TradePage() {
                       max="5"
                       value={confidence}
                       onChange={(e) => setConfidence(parseInt(e.target.value))}
-                      className="w-full accent-gray-900"
+                      className="w-full"
                     />
-                    <div className="flex justify-between text-[10px] text-gray-400">
+                    <div className="mt-1 flex justify-between text-[12px] text-text-tertiary">
                       <span>불확실</span><span>확신</span>
                     </div>
                   </div>
 
+                  {/* Estimated amount */}
                   {qty && parseInt(qty) > 0 && (
-                    <p className="text-xs text-gray-500">
-                      예상 금액: <span className="font-semibold">{(quote.price * parseInt(qty)).toLocaleString()}원</span>
-                    </p>
+                    <div className="rounded-xl bg-surface-hover/70 px-4 py-3">
+                      <p className="text-[13px] text-text-secondary">
+                        예상 금액:
+                        <span className="ml-2 text-[15px] font-bold text-text-primary">
+                          {(quote.price * parseInt(qty)).toLocaleString()}원
+                        </span>
+                      </p>
+                    </div>
                   )}
 
-                  {error && <p className="rounded-md bg-red-50 px-3 py-2 text-xs text-red-600">{error}</p>}
-                  {success && <p className="rounded-md bg-green-50 px-3 py-2 text-xs text-green-600">{success}</p>}
+                  {/* Error/Success messages */}
+                  {error && (
+                    <div className="rounded-xl bg-danger-light px-4 py-3">
+                      <p className="text-[13px] font-medium text-danger">{error}</p>
+                    </div>
+                  )}
+                  {success && (
+                    <div className="animate-fade-in-up rounded-xl bg-success-light px-4 py-3">
+                      <p className="text-[13px] font-medium text-success">{success}</p>
+                    </div>
+                  )}
 
+                  {/* Submit button */}
                   <button
                     onClick={handleSubmit}
                     disabled={!qty || parseInt(qty) <= 0}
-                    className={`w-full rounded-md py-2.5 text-sm font-semibold text-white disabled:opacity-50 ${
-                      tradeType === "buy" ? "bg-green-600 hover:bg-green-700" : "bg-red-500 hover:bg-red-600"
+                    className={`w-full rounded-2xl py-3.5 text-[15px] font-bold text-white transition-all duration-200 disabled:opacity-40 ${
+                      tradeType === "buy"
+                        ? "bg-success shadow-md shadow-success/20 hover:shadow-lg hover:shadow-success/30 active:scale-[0.98]"
+                        : "bg-danger shadow-md shadow-danger/20 hover:shadow-lg hover:shadow-danger/30 active:scale-[0.98]"
                     }`}
                   >
                     {tradeType === "buy" ? "매수 주문" : "매도 주문"}
@@ -371,52 +422,100 @@ export default function TradePage() {
               )}
             </>
           ) : (
-            <div className="flex h-64 items-center justify-center rounded-lg border-2 border-dashed border-gray-200 text-sm text-gray-400">
-              종목을 검색해서 선택해주세요
+            <div className="card flex h-72 flex-col items-center justify-center rounded-2xl border-2 border-dashed border-card-border p-8 text-center">
+              <span className="mb-3 text-4xl">🔍</span>
+              <p className="text-[15px] font-medium text-text-tertiary">
+                종목을 검색해서 선택해주세요
+              </p>
+              <p className="mt-1 text-[13px] text-text-tertiary">
+                삼성전자, SK하이닉스 등을 검색해보세요
+              </p>
             </div>
           )}
         </div>
 
         {/* Right: Chart + Recent trades */}
-        <div className="space-y-4">
+        <div className="space-y-5">
           {selected && history.length > 0 && (
-            <div className="rounded-lg border border-gray-200 bg-white p-4">
-              <h3 className="mb-2 text-sm font-semibold text-gray-700">
+            <div className="card rounded-2xl p-5">
+              <h3 className="mb-3 text-[15px] font-bold text-text-primary">
                 {selected.name} 최근 30일
               </h3>
-              <div className="h-40">
+              <div className="h-44">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={history}>
-                    <XAxis dataKey="date" tick={{ fontSize: 10, fill: "#9ca3af" }} tickLine={false} />
-                    <YAxis tick={{ fontSize: 10, fill: "#9ca3af" }} tickLine={false} axisLine={false} domain={["auto", "auto"]} />
-                    <Tooltip formatter={(v) => `${Number(v).toLocaleString()}원`} contentStyle={{ fontSize: 12 }} />
-                    <Line type="monotone" dataKey="price" stroke="#111827" strokeWidth={2} dot={false} />
+                    <XAxis
+                      dataKey="date"
+                      tick={{ fontSize: 11, fill: "#9e9eb0" }}
+                      tickLine={false}
+                      axisLine={{ stroke: "#f0ece8" }}
+                    />
+                    <YAxis
+                      tick={{ fontSize: 11, fill: "#9e9eb0" }}
+                      tickLine={false}
+                      axisLine={false}
+                      domain={["auto", "auto"]}
+                    />
+                    <Tooltip
+                      formatter={(v) => `${Number(v).toLocaleString()}원`}
+                      contentStyle={{
+                        fontSize: 13,
+                        borderRadius: 12,
+                        border: "1px solid #f0ece8",
+                        boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
+                      }}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="price"
+                      stroke="#7c5df0"
+                      strokeWidth={2.5}
+                      dot={false}
+                      activeDot={{ r: 5, fill: "#7c5df0", stroke: "#fff", strokeWidth: 2 }}
+                    />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
             </div>
           )}
 
-          <div className="rounded-lg border border-gray-200 bg-white p-4">
-            <h3 className="mb-3 text-sm font-semibold text-gray-700">최근 거래</h3>
+          {/* Recent trades */}
+          <div className="card rounded-2xl p-5">
+            <h3 className="mb-4 text-[15px] font-bold text-text-primary">최근 거래</h3>
             {recentTrades.length === 0 ? (
-              <p className="text-center text-sm text-gray-400 py-4">아직 거래 내역이 없습니다</p>
+              <div className="flex flex-col items-center py-8 text-center">
+                <span className="mb-2 text-3xl">📋</span>
+                <p className="text-[14px] text-text-tertiary">아직 거래 내역이 없습니다</p>
+              </div>
             ) : (
-              <div className="space-y-2">
+              <div className="space-y-1">
                 {recentTrades.map((t) => (
-                  <div key={t.id} className="flex items-center justify-between border-b border-gray-50 pb-2 last:border-0">
-                    <div>
-                      <span className="text-sm font-medium">{t.ticker}</span>
-                      <span className={`ml-2 text-xs font-semibold ${t.type === "buy" ? "text-green-600" : "text-red-500"}`}>
+                  <div
+                    key={t.id}
+                    className="flex items-center justify-between rounded-xl px-3 py-3 transition-colors hover:bg-surface-hover/50"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span
+                        className={`flex h-8 w-8 items-center justify-center rounded-xl text-xs font-bold text-white ${
+                          t.type === "buy" ? "bg-success" : "bg-danger"
+                        }`}
+                      >
                         {t.type === "buy" ? "매수" : "매도"}
                       </span>
-                      {t.bias_alert_shown && (
-                        <span className="ml-1 text-[10px] text-orange-500">편향감지</span>
-                      )}
+                      <div>
+                        <p className="text-[14px] font-semibold text-text-primary">{t.ticker}</p>
+                        {t.bias_alert_shown && (
+                          <span className="text-[11px] font-medium text-warning">편향감지</span>
+                        )}
+                      </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-xs text-gray-500">{t.qty}주 × {t.price.toLocaleString()}원</p>
-                      <p className="text-[10px] text-gray-400">{new Date(t.created_at).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })}</p>
+                      <p className="text-[13px] font-medium text-text-secondary">
+                        {t.qty}주 x {t.price.toLocaleString()}원
+                      </p>
+                      <p className="text-[11px] text-text-tertiary">
+                        {new Date(t.created_at).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })}
+                      </p>
                     </div>
                   </div>
                 ))}

@@ -6,17 +6,23 @@ interface StatCardProps {
 }
 
 const colorMap = {
-  up: "text-green-600",
-  down: "text-red-500",
-  neutral: "text-gray-900",
+  up: "text-success",
+  down: "text-danger",
+  neutral: "text-text-primary",
+};
+
+const bgMap = {
+  up: "bg-success-light",
+  down: "bg-danger-light",
+  neutral: "bg-white",
 };
 
 export function StatCard({ label, value, color = "neutral", sub }: StatCardProps) {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4 text-center">
-      <p className="mb-1 text-xs font-medium text-gray-500">{label}</p>
-      <p className={`text-xl font-bold ${colorMap[color]}`}>{value}</p>
-      {sub && <p className="mt-0.5 text-[11px] text-gray-400">{sub}</p>}
+    <div className={`card rounded-2xl p-5 text-center transition-all duration-200 ${bgMap[color]}`}>
+      <p className="mb-2 text-[13px] font-medium text-text-tertiary">{label}</p>
+      <p className={`text-2xl font-bold tracking-tight ${colorMap[color]}`}>{value}</p>
+      {sub && <p className="mt-1.5 text-[12px] leading-relaxed text-text-tertiary">{sub}</p>}
     </div>
   );
 }

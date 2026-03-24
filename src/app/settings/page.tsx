@@ -66,75 +66,73 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl space-y-6">
+    <div className="mx-auto max-w-2xl space-y-8 pb-20 sm:pb-0">
       {/* Profile */}
       <div>
-        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
-          프로필
-        </h2>
-        <div className="rounded-lg border border-gray-200 bg-white p-4">
-          <div className="mb-4 flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-900 text-lg font-bold text-white">
+        <h2 className="section-title mb-4">프로필</h2>
+        <div className="card rounded-2xl p-6">
+          <div className="mb-5 flex items-center gap-4">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary-dark text-xl font-bold text-white shadow-lg shadow-primary/20">
               {name.charAt(0)}
             </div>
             <div>
-              <p className="font-semibold">{name}</p>
-              <p className="text-xs text-gray-500">
+              <p className="text-[17px] font-bold text-text-primary">{name}</p>
+              <p className="mt-0.5 text-[13px] text-text-tertiary">
                 Lv.{level.level} {level.title} · XP {user.xp} · 매매 {tradeCount}건
               </p>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none"
+              className="flex-1 rounded-xl border-2 border-card-border bg-white px-4 py-3 text-[15px] text-text-primary transition-all duration-200 focus:border-primary/50 focus:outline-none focus:ring-4 focus:ring-primary/10"
               placeholder="이름"
             />
             <button
               onClick={handleSaveName}
-              className="rounded-md bg-gray-900 px-4 py-2 text-sm font-semibold text-white"
+              className="btn-primary rounded-xl px-6 py-3 text-[14px]"
             >
               저장
             </button>
           </div>
           {saved && (
-            <p className="mt-2 text-xs text-green-600">저장되었습니다!</p>
+            <p className="mt-3 animate-fade-in-up text-[13px] font-medium text-success">
+              저장되었습니다!
+            </p>
           )}
         </div>
       </div>
 
       {/* Training environment */}
       <div>
-        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
-          훈련 환경
-        </h2>
+        <h2 className="section-title mb-4">훈련 환경</h2>
         <div className="space-y-3">
-          <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4">
+          <div className="card flex items-center justify-between rounded-2xl p-5">
             <div>
-              <p className="text-sm font-semibold">초기 가상 자금</p>
-              <p className="text-xs text-gray-500">모의 투자 시작 금액</p>
+              <p className="text-[15px] font-semibold text-text-primary">초기 가상 자금</p>
+              <p className="mt-0.5 text-[13px] text-text-tertiary">모의 투자 시작 금액</p>
             </div>
-            <p className="text-sm font-semibold">{portfolio.initial_cash.toLocaleString()}원</p>
+            <p className="text-[15px] font-bold text-text-primary">{portfolio.initial_cash.toLocaleString()}원</p>
           </div>
-          <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4">
+          <div className="card flex items-center justify-between rounded-2xl p-5">
             <div>
-              <p className="text-sm font-semibold">현재 잔액</p>
-              <p className="text-xs text-gray-500">사용 가능한 현금</p>
+              <p className="text-[15px] font-semibold text-text-primary">현재 잔액</p>
+              <p className="mt-0.5 text-[13px] text-text-tertiary">사용 가능한 현금</p>
             </div>
-            <p className="text-sm font-semibold">{portfolio.current_cash.toLocaleString()}원</p>
+            <p className="text-[15px] font-bold text-text-primary">{portfolio.current_cash.toLocaleString()}원</p>
           </div>
-          <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4">
+          <div className="card flex items-center justify-between rounded-2xl p-5">
             <div>
-              <p className="text-sm font-semibold">투자 시장</p>
-              <p className="text-xs text-gray-500">매매 가능한 시장</p>
+              <p className="text-[15px] font-semibold text-text-primary">투자 시장</p>
+              <p className="mt-0.5 text-[13px] text-text-tertiary">매매 가능한 시장</p>
             </div>
-            <div className="flex gap-1.5">
-              <span className="rounded-full bg-gray-900 px-2.5 py-0.5 text-xs font-semibold text-white">
+            <div className="flex gap-2">
+              <span className="rounded-full bg-primary px-3 py-1 text-[12px] font-bold text-white shadow-sm shadow-primary/20">
                 KRX
               </span>
-              <span className="rounded-full border border-gray-300 px-2.5 py-0.5 text-xs text-gray-400">
+              <span className="rounded-full border-2 border-card-border px-3 py-1 text-[12px] font-medium text-text-tertiary">
                 NYSE (Phase 2)
               </span>
             </div>
@@ -144,20 +142,18 @@ export default function SettingsPage() {
 
       {/* Data management */}
       <div>
-        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
-          데이터 관리
-        </h2>
+        <h2 className="section-title mb-4">데이터 관리</h2>
         <div className="space-y-3">
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             <button
               onClick={handleExport}
-              className="flex-1 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="card card-interactive flex-1 rounded-2xl px-5 py-4 text-center text-[14px] font-semibold text-text-secondary transition-all hover:text-text-primary"
             >
               데이터 내보내기 (JSON)
             </button>
             <button
               onClick={handleImport}
-              className="flex-1 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="card card-interactive flex-1 rounded-2xl px-5 py-4 text-center text-[14px] font-semibold text-text-secondary transition-all hover:text-text-primary"
             >
               데이터 가져오기
             </button>
@@ -166,28 +162,28 @@ export default function SettingsPage() {
           {!showResetConfirm ? (
             <button
               onClick={() => setShowResetConfirm(true)}
-              className="w-full rounded-lg border border-red-300 px-4 py-2.5 text-sm font-medium text-red-500 hover:bg-red-50"
+              className="w-full rounded-2xl border-2 border-danger/20 bg-danger-light/50 px-5 py-4 text-[14px] font-semibold text-danger transition-all duration-200 hover:border-danger/40 hover:bg-danger-light active:scale-[0.99]"
             >
               모든 데이터 초기화
             </button>
           ) : (
-            <div className="rounded-lg border-2 border-red-400 bg-red-50 p-4">
-              <p className="mb-2 text-sm font-semibold text-red-700">
+            <div className="animate-fade-in-up rounded-2xl border-2 border-danger/30 bg-danger-light p-6">
+              <p className="mb-2 text-[16px] font-bold text-danger">
                 정말 초기화하시겠습니까?
               </p>
-              <p className="mb-3 text-xs text-red-600">
+              <p className="mb-4 text-[14px] leading-relaxed text-danger/80">
                 모든 매매 기록, 학습 진도, 편향 데이터가 삭제됩니다. 복구할 수 없습니다.
               </p>
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 <button
                   onClick={handleReset}
-                  className="flex-1 rounded-md bg-red-500 py-2 text-sm font-semibold text-white"
+                  className="flex-1 rounded-xl bg-danger py-3 text-[14px] font-bold text-white shadow-md shadow-danger/20 transition-all duration-200 hover:shadow-lg hover:shadow-danger/30 active:scale-[0.98]"
                 >
                   초기화 실행
                 </button>
                 <button
                   onClick={() => setShowResetConfirm(false)}
-                  className="flex-1 rounded-md border border-gray-300 py-2 text-sm font-semibold text-gray-700"
+                  className="flex-1 rounded-xl border-2 border-card-border bg-white py-3 text-[14px] font-bold text-text-secondary transition-all duration-200 hover:bg-surface-hover active:scale-[0.98]"
                 >
                   취소
                 </button>
@@ -198,9 +194,9 @@ export default function SettingsPage() {
       </div>
 
       {/* App info */}
-      <div className="rounded-lg border border-gray-200 bg-white p-4 text-center text-xs text-gray-400">
-        <p>pecunio2 v0.1.0 — 행동경제학 기반 투자 훈련 플랫폼</p>
-        <p className="mt-1">데이터는 브라우저 localStorage에 저장됩니다</p>
+      <div className="card rounded-2xl p-5 text-center">
+        <p className="text-[13px] text-text-tertiary">pecunio2 v0.1.0 — 행동경제학 기반 투자 훈련 플랫폼</p>
+        <p className="mt-1.5 text-[12px] text-text-tertiary/70">데이터는 브라우저 localStorage에 저장됩니다</p>
       </div>
     </div>
   );

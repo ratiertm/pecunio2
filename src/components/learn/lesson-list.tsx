@@ -23,37 +23,37 @@ const statusIcon = {
 };
 
 const statusStyle = {
-  completed: "border-green-500 bg-green-50",
-  current: "border-gray-900 border-2",
-  locked: "border-gray-200 opacity-50",
+  completed: "border-success/20 bg-success-light/50 hover:bg-success-light",
+  current: "border-primary/30 bg-primary-light/50 shadow-sm shadow-primary/5 hover:bg-primary-light hover:shadow-md hover:shadow-primary/10",
+  locked: "border-card-border bg-surface-hover/30 opacity-60",
 };
 
 const iconStyle = {
-  completed: "border-green-500 text-green-600",
-  current: "border-gray-900 text-gray-900",
-  locked: "border-gray-300 text-gray-400",
+  completed: "bg-success text-white",
+  current: "bg-primary text-white shadow-md shadow-primary/20",
+  locked: "bg-card-border text-text-tertiary",
 };
 
 function LessonContent({ lesson }: { lesson: LessonItem }) {
   return (
     <>
       <div
-        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 text-sm ${iconStyle[lesson.status]}`}
+        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-semibold transition-transform duration-200 ${iconStyle[lesson.status]}`}
       >
         {statusIcon[lesson.status]}
       </div>
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-semibold">
+        <p className="truncate text-[15px] font-semibold text-text-primary">
           {lesson.chapter}-{lesson.order}. {lesson.title}
         </p>
       </div>
       <span
-        className={`shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-medium ${
+        className={`shrink-0 rounded-full px-3 py-1 text-[12px] font-semibold ${
           lesson.status === "completed"
-            ? "border-green-300 text-green-600"
+            ? "bg-success-light text-success"
             : lesson.status === "current"
-              ? "border-orange-300 text-orange-600"
-              : "border-gray-200 text-gray-400"
+              ? "bg-primary-light text-primary"
+              : "bg-surface-hover text-text-tertiary"
         }`}
       >
         {lesson.status === "completed"
@@ -69,14 +69,12 @@ function LessonContent({ lesson }: { lesson: LessonItem }) {
 export function LessonList({ lessons, chapterTitle }: LessonListProps) {
   return (
     <div>
-      <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
+      <h3 className="section-title mb-4">
         {chapterTitle}
       </h3>
-      <div className="space-y-2.5">
+      <div className="space-y-3">
         {lessons.map((lesson) => {
-          const cls = `flex items-center gap-3 rounded-lg border p-3.5 transition-colors ${statusStyle[lesson.status]} ${
-            lesson.status !== "locked" ? "cursor-pointer hover:shadow-sm" : ""
-          }`;
+          const cls = `flex items-center gap-4 rounded-2xl border p-4 transition-all duration-200 ${statusStyle[lesson.status]}`;
 
           if (lesson.status === "locked") {
             return (
@@ -87,7 +85,11 @@ export function LessonList({ lessons, chapterTitle }: LessonListProps) {
           }
 
           return (
-            <Link key={lesson.id} href={`/learn/${lesson.id}`} className={cls}>
+            <Link
+              key={lesson.id}
+              href={`/learn/${lesson.id}`}
+              className={`${cls} active:scale-[0.99]`}
+            >
               <LessonContent lesson={lesson} />
             </Link>
           );

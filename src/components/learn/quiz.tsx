@@ -64,27 +64,31 @@ export function Quiz({ lessonId, questions, correctAnswers, onComplete }: QuizPr
     const isPerfect = correctCount === questions.length;
 
     return (
-      <div className="rounded-lg border border-gray-200 bg-white p-6 text-center">
-        <p className="mb-2 text-4xl">{isPerfect ? "🎉" : "👍"}</p>
-        <p className="text-lg font-bold">
+      <div className="card animate-fade-in-up rounded-2xl p-8 text-center">
+        <div className="mb-3 text-5xl">{isPerfect ? "🎉" : "👍"}</div>
+        <p className="text-2xl font-bold text-text-primary">
           {correctCount}/{questions.length} 정답
         </p>
-        <p className="mt-1 text-sm text-gray-500">
-          +{result.xpEarned} XP 획득{isPerfect && " (만점 보너스!)"}
-        </p>
+        <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-primary-light px-4 py-1.5">
+          <span className="text-sm font-bold text-primary">
+            +{result.xpEarned} XP 획득{isPerfect && " (만점 보너스!)"}
+          </span>
+        </div>
         {/* Show explanations */}
-        <div className="mt-4 space-y-2 text-left">
+        <div className="mt-6 space-y-3 text-left">
           {questions.map((q, i) => (
             <div
               key={i}
-              className={`rounded-md p-3 text-xs ${
-                result.correct[i] ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"
+              className={`rounded-2xl p-4 text-[14px] ${
+                result.correct[i]
+                  ? "bg-success-light text-success"
+                  : "bg-danger-light text-danger"
               }`}
             >
               <p className="font-semibold">
                 {result.correct[i] ? "✓" : "✗"} {q.question}
               </p>
-              <p className="mt-1 text-gray-600">{q.explanation}</p>
+              <p className="mt-1.5 text-text-secondary">{q.explanation}</p>
             </div>
           ))}
         </div>
@@ -93,43 +97,48 @@ export function Quiz({ lessonId, questions, correctAnswers, onComplete }: QuizPr
   }
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-5">
+    <div className="card animate-fade-in-up rounded-2xl p-6">
       <div className="mb-1 flex items-center justify-between">
-        <span className="text-xs font-medium text-gray-500">
+        <span className="text-[13px] font-semibold text-text-tertiary">
           문제 {currentIdx + 1}/{questions.length}
         </span>
-        <div className="flex gap-1">
+        <div className="flex gap-1.5">
           {questions.map((_, i) => (
             <div
               key={i}
-              className={`h-1.5 w-6 rounded-full ${
+              className={`h-2 w-8 rounded-full transition-all duration-300 ${
                 i < currentIdx
-                  ? "bg-green-500"
+                  ? "bg-success"
                   : i === currentIdx
-                    ? "bg-gray-900"
-                    : "bg-gray-200"
+                    ? "bg-primary"
+                    : "bg-card-border"
               }`}
             />
           ))}
         </div>
       </div>
 
-      <p className="mb-4 mt-3 text-[15px] font-semibold leading-relaxed">
+      <p className="mb-5 mt-4 text-[17px] font-bold leading-relaxed text-text-primary">
         {q.question}
       </p>
 
-      <div className="space-y-2">
+      <div className="space-y-2.5">
         {q.options.map((opt, i) => (
           <button
             key={i}
             onClick={() => setSelected(i)}
-            className={`w-full rounded-lg border px-4 py-2.5 text-left text-sm transition-colors ${
+            className={`w-full rounded-2xl border-2 px-5 py-3.5 text-left text-[15px] transition-all duration-200 ${
               selected === i
-                ? "border-gray-900 bg-gray-50 font-medium"
-                : "border-gray-200 hover:border-gray-400"
+                ? "border-primary bg-primary-light font-medium text-primary shadow-sm shadow-primary/10"
+                : "border-card-border text-text-secondary hover:border-primary/30 hover:bg-surface-hover"
             }`}
           >
-            {String.fromCharCode(65 + i)}) {opt}
+            <span className={`mr-2 inline-flex h-6 w-6 items-center justify-center rounded-lg text-xs font-bold ${
+              selected === i ? "bg-primary text-white" : "bg-surface-hover text-text-tertiary"
+            }`}>
+              {String.fromCharCode(65 + i)}
+            </span>
+            {opt}
           </button>
         ))}
       </div>
@@ -137,9 +146,9 @@ export function Quiz({ lessonId, questions, correctAnswers, onComplete }: QuizPr
       <button
         onClick={handleNext}
         disabled={selected === null}
-        className="mt-4 w-full rounded-md bg-gray-900 py-2.5 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
+        className="btn-primary mt-5 w-full rounded-2xl py-3.5 text-[15px] disabled:cursor-not-allowed disabled:opacity-40"
       >
-        {isLast ? "제출" : "다음"}
+        {isLast ? "제출하기" : "다음 문제"}
       </button>
     </div>
   );

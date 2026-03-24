@@ -10,15 +10,21 @@ interface BiasAlertProps {
 }
 
 const severityStyles = {
-  high: "border-red-400 bg-red-50",
-  medium: "border-orange-400 bg-orange-50",
-  low: "border-yellow-400 bg-yellow-50",
+  high: "border-danger/30 bg-danger-light",
+  medium: "border-warning/30 bg-warning-light",
+  low: "border-warning/20 bg-[#fffcf5]",
+};
+
+const severityIcon = {
+  high: "🚨",
+  medium: "⚠️",
+  low: "💡",
 };
 
 const severityTitle = {
-  high: "text-red-600",
-  medium: "text-orange-600",
-  low: "text-yellow-600",
+  high: "text-danger",
+  medium: "text-warning",
+  low: "text-text-secondary",
 };
 
 const biasLabels: Record<string, string> = {
@@ -32,29 +38,32 @@ export function BiasAlert({ result, onDelay, onLearn, onIgnore }: BiasAlertProps
   if (!result.detected || !result.type || !result.severity) return null;
 
   return (
-    <div className={`rounded-lg border-2 p-4 ${severityStyles[result.severity]}`}>
-      <p className={`mb-1.5 text-xs font-bold ${severityTitle[result.severity]}`}>
-        {biasLabels[result.type] || "편향 감지"}
-      </p>
-      <p className="mb-3 text-sm leading-relaxed text-gray-700">
+    <div className={`animate-fade-in-up rounded-2xl border-2 p-5 ${severityStyles[result.severity]}`}>
+      <div className="mb-2 flex items-center gap-2">
+        <span className="text-xl">{severityIcon[result.severity]}</span>
+        <p className={`text-sm font-bold ${severityTitle[result.severity]}`}>
+          {biasLabels[result.type] || "편향 감지"}
+        </p>
+      </div>
+      <p className="mb-4 text-[15px] leading-relaxed text-text-secondary">
         {result.message}
       </p>
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <button
           onClick={onDelay}
-          className="rounded-md bg-orange-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-orange-600"
+          className="rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-all duration-150 hover:shadow-md hover:shadow-accent/20 active:scale-[0.98]"
         >
           30분 후 재검토
         </button>
         <button
           onClick={onLearn}
-          className="rounded-md border border-orange-400 px-3 py-1.5 text-xs font-semibold text-orange-600 hover:bg-orange-100"
+          className="rounded-xl border-2 border-accent/30 bg-white px-4 py-2.5 text-sm font-semibold text-accent transition-all duration-150 hover:bg-accent-light active:scale-[0.98]"
         >
           편향 학습 보기
         </button>
         <button
           onClick={onIgnore}
-          className="rounded-md border border-gray-300 px-3 py-1.5 text-xs font-semibold text-gray-500 hover:bg-gray-100"
+          className="rounded-xl border border-card-border bg-white px-4 py-2.5 text-sm font-semibold text-text-tertiary transition-all duration-150 hover:bg-surface-hover active:scale-[0.98]"
         >
           무시하고 진행
         </button>

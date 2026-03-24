@@ -44,21 +44,22 @@ export default function LearnPage() {
     : 0;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 pb-20 sm:pb-0">
       <LevelBar level={level} xp={user.xp} nextLevel={nextLevel} />
 
-      <div className="grid grid-cols-3 gap-3">
-        <div className="rounded-lg border border-gray-200 bg-white p-3 text-center">
-          <p className="text-2xl font-bold">{completedCount}/{LESSONS.length}</p>
-          <p className="text-xs text-gray-500">완료한 레슨</p>
+      {/* Stats row */}
+      <div className="grid grid-cols-3 gap-4">
+        <div className="card flex flex-col items-center rounded-2xl p-5 text-center">
+          <p className="text-2xl font-bold text-primary">{completedCount}/{LESSONS.length}</p>
+          <p className="mt-1 text-[13px] text-text-tertiary">완료한 레슨</p>
         </div>
-        <div className="rounded-lg border border-gray-200 bg-white p-3 text-center">
-          <p className="text-2xl font-bold">{avgScore > 0 ? `${avgScore}%` : "—"}</p>
-          <p className="text-xs text-gray-500">퀴즈 평균 점수</p>
+        <div className="card flex flex-col items-center rounded-2xl p-5 text-center">
+          <p className="text-2xl font-bold text-accent">{avgScore > 0 ? `${avgScore}%` : "—"}</p>
+          <p className="mt-1 text-[13px] text-text-tertiary">퀴즈 평균 점수</p>
         </div>
-        <div className="rounded-lg border border-gray-200 bg-white p-3 text-center">
-          <p className="text-2xl font-bold">{user.xp}</p>
-          <p className="text-xs text-gray-500">총 XP</p>
+        <div className="card flex flex-col items-center rounded-2xl p-5 text-center">
+          <p className="text-2xl font-bold text-primary">{user.xp}</p>
+          <p className="mt-1 text-[13px] text-text-tertiary">총 XP</p>
         </div>
       </div>
 

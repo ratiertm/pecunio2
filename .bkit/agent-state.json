@@ -1,14 +1,25 @@
 {
   "version": "1.0",
-  "enabled": false,
+  "enabled": true,
   "teamName": "",
-  "feature": "",
-  "pdcaPhase": "plan",
+  "feature": "pecunio2",
+  "pdcaPhase": "do",
   "orchestrationPattern": "leader",
   "ctoAgent": "opus",
-  "startedAt": "2026-03-23T20:56:06.645Z",
-  "lastUpdated": "2026-03-23T21:01:53.298Z",
-  "teammates": [],
+  "startedAt": "2026-03-24T13:48:20.514Z",
+  "lastUpdated": "2026-03-24T13:56:29.921Z",
+  "teammates": [
+    {
+      "name": "a542038fb70c2a4ab",
+      "role": "general-purpose",
+      "model": "sonnet",
+      "status": "completed",
+      "currentTask": null,
+      "taskId": null,
+      "startedAt": "2026-03-24T13:48:20.515Z",
+      "lastActivityAt": "2026-03-24T13:56:29.920Z"
+    }
+  ],
   "progress": {
     "totalTasks": 0,
     "completedTasks": 0,
