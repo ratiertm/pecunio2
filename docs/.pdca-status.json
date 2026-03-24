@@ -1,0 +1,549 @@
+{
+  "version": "2.0",
+  "lastUpdated": "2026-03-23T22:22:29.705Z",
+  "activeFeatures": [
+    "pecunio2",
+    "market",
+    "trading",
+    "bias",
+    "learning",
+    "test",
+    "ui",
+    "dashboard",
+    "trade",
+    "learn",
+    "search",
+    "quote",
+    "quiz",
+    "[id]",
+    "settings"
+  ],
+  "primaryFeature": "pecunio2",
+  "features": {
+    "pecunio2": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-23T21:05:39.767Z",
+        "lastUpdated": "2026-03-23T22:20:34.801Z"
+      },
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/app/page.tsx"
+    },
+    "market": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-23T21:06:06.433Z",
+        "lastUpdated": "2026-03-23T21:33:23.203Z"
+      },
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/lib/market/demo-data.ts"
+    },
+    "trading": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-23T21:07:07.268Z",
+        "lastUpdated": "2026-03-23T21:07:07.268Z"
+      },
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/lib/trading/engine.ts"
+    },
+    "bias": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-23T21:07:54.797Z",
+        "lastUpdated": "2026-03-23T22:22:29.705Z"
+      },
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/app/bias/page.tsx"
+    },
+    "learning": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-23T21:08:22.711Z",
+        "lastUpdated": "2026-03-23T21:35:31.558Z"
+      },
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/lib/learning/content.ts"
+    },
+    "test": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-23T21:09:39.494Z",
+        "lastUpdated": "2026-03-23T21:09:39.494Z"
+      },
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/test/setup.ts"
+    },
+    "ui": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-23T21:12:58.790Z",
+        "lastUpdated": "2026-03-23T22:19:28.472Z"
+      },
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/components/ui/onboarding.tsx"
+    },
+    "dashboard": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-23T21:13:32.335Z",
+        "lastUpdated": "2026-03-23T21:18:31.215Z"
+      },
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/components/dashboard/portfolio-chart.tsx"
+    },
+    "trade": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-23T21:13:57.184Z",
+        "lastUpdated": "2026-03-23T22:21:45.462Z"
+      },
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/app/trade/page.tsx"
+    },
+    "learn": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-23T21:14:40.365Z",
+        "lastUpdated": "2026-03-23T21:40:55.553Z"
+      },
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/components/learn/quiz.tsx"
+    },
+    "search": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-23T21:17:46.029Z",
+        "lastUpdated": "2026-03-23T21:17:46.029Z"
+      },
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/app/api/market/search/route.ts"
+    },
+    "quote": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-23T21:17:53.495Z",
+        "lastUpdated": "2026-03-23T21:17:53.495Z"
+      },
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/app/api/market/quote/route.ts"
+    },
+    "quiz": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-23T21:18:13.504Z",
+        "lastUpdated": "2026-03-23T21:18:13.504Z"
+      },
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/app/api/quiz/route.ts"
+    },
+    "[id]": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-23T21:40:28.357Z",
+        "lastUpdated": "2026-03-23T21:41:07.043Z"
+      },
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/app/learn/[id]/page.tsx"
+    },
+    "settings": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-23T22:18:48.378Z",
+        "lastUpdated": "2026-03-23T22:18:48.378Z"
+      },
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/app/settings/page.tsx"
+    }
+  },
+  "pipeline": {
+    "currentPhase": 1,
+    "level": "Dynamic",
+    "phaseHistory": []
+  },
+  "session": {
+    "startedAt": "2026-03-23T19:50:48.256Z",
+    "onboardingCompleted": false,
+    "lastActivity": "2026-03-23T22:22:29.705Z"
+  },
+  "history": [
+    {
+      "timestamp": "2026-03-23T21:05:39.767Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:05:46.155Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:06:06.433Z",
+      "feature": "market",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:06:39.859Z",
+      "feature": "market",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:07:07.268Z",
+      "feature": "trading",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:07:54.797Z",
+      "feature": "bias",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:08:22.711Z",
+      "feature": "learning",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:09:30.610Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:09:39.494Z",
+      "feature": "test",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:12:58.790Z",
+      "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:13:05.660Z",
+      "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:13:20.202Z",
+      "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:13:32.335Z",
+      "feature": "dashboard",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:13:44.839Z",
+      "feature": "dashboard",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:13:57.184Z",
+      "feature": "trade",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:14:24.781Z",
+      "feature": "trade",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:14:40.365Z",
+      "feature": "learn",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:15:21.287Z",
+      "feature": "learn",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:15:29.720Z",
+      "feature": "learn",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:15:42.731Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:17:00.233Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:17:21.285Z",
+      "feature": "trade",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:17:37.944Z",
+      "feature": "learn",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:17:46.029Z",
+      "feature": "search",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:17:53.495Z",
+      "feature": "quote",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:18:06.514Z",
+      "feature": "trade",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:18:13.504Z",
+      "feature": "quiz",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:18:31.215Z",
+      "feature": "dashboard",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:18:43.079Z",
+      "feature": "learn",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:18:59.278Z",
+      "feature": "learn",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:19:59.951Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:20:30.246Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:28:16.324Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:33:23.203Z",
+      "feature": "market",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:35:31.558Z",
+      "feature": "learning",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:35:44.991Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:37:55.465Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:38:01.578Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:38:25.824Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:39:28.231Z",
+      "feature": "trade",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:39:46.423Z",
+      "feature": "learn",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:40:28.357Z",
+      "feature": "[id]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:40:55.553Z",
+      "feature": "learn",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T21:41:07.043Z",
+      "feature": "[id]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T22:18:17.756Z",
+      "feature": "bias",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T22:18:48.378Z",
+      "feature": "settings",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T22:19:15.905Z",
+      "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T22:19:28.472Z",
+      "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T22:19:39.874Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T22:20:34.801Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T22:21:21.475Z",
+      "feature": "trade",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T22:21:45.462Z",
+      "feature": "trade",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T22:22:29.705Z",
+      "feature": "bias",
+      "phase": "do",
+      "action": "updated"
+    }
+  ]
+}
