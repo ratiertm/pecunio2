@@ -49,24 +49,58 @@ export default function TradePage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const handleSearch = useCallback((q: string) => {
+  const handleSearch = useCallback(async (q: string) => {
     setSearchQuery(q);
     if (q.length < 1) {
       setSearchResults([]);
       return;
     }
+    // Try real API first, fall back to demo
+    try {
+      const res = await fetch(`/api/market/search?q=${encodeURIComponent(q)}`);
+      const data = await res.json();
+      if (data.results && data.results.length > 0) {
+        setSearchResults(data.results);
+        return;
+      }
+    } catch {}
     setSearchResults(searchDemoTickers(q));
   }, []);
 
-  const handleSelect = useCallback((result: TickerSearchResult) => {
+  const handleSelect = useCallback(async (result: TickerSearchResult & { price?: number; change?: number; change_percent?: number }) => {
     setSelected(result);
     setSearchQuery(result.name);
     setSearchResults([]);
-    setQuote(getDemoQuote(result.ticker));
-    setHistory(getDemoHistory(result.ticker));
     setError(null);
     setSuccess(null);
     setBiasResult(null);
+
+    // If search result already includes price (from real API), use it
+    if (result.price) {
+      setQuote({
+        ticker: result.ticker,
+        market: result.market,
+        price: result.price,
+        change: result.change ?? 0,
+        change_percent: result.change_percent ?? 0,
+        volume: 0,
+        timestamp: new Date().toISOString(),
+        is_stale: false,
+      });
+    } else {
+      // Try real API, fall back to demo
+      try {
+        const res = await fetch(`/api/market/quote?ticker=${result.ticker}`);
+        const data = await res.json();
+        if (data.quote) {
+          setQuote(data.quote);
+          setHistory(getDemoHistory(result.ticker)); // still demo history for now
+          return;
+        }
+      } catch {}
+      setQuote(getDemoQuote(result.ticker));
+    }
+    setHistory(getDemoHistory(result.ticker));
   }, []);
 
   function checkBiasLocally(): BiasCheckResult {

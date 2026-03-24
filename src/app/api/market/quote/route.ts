@@ -1,26 +1,50 @@
 import { NextRequest, NextResponse } from "next/server";
-import { marketData } from "@/lib/market/provider";
-import { KRXProvider } from "@/lib/market/krx";
-import type { Market } from "@/types";
 
-if (!marketData["providers"].has("KRX")) {
-  marketData.registerProvider(new KRXProvider());
-}
+const KRX_API_URL = "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService";
+const KRX_API_KEY = process.env.KRX_API_KEY || "";
 
 export async function GET(req: NextRequest) {
   const ticker = req.nextUrl.searchParams.get("ticker");
-  const market = req.nextUrl.searchParams.get("market") as Market;
-
-  if (!ticker || !market) {
-    return NextResponse.json({ error: "ticker and market required" }, { status: 400 });
+  if (!ticker) {
+    return NextResponse.json({ error: "ticker required" }, { status: 400 });
   }
 
   try {
-    const quote = await marketData.getQuote(ticker, market);
-    if (!quote) {
+    const url = new URL(`${KRX_API_URL}/getStockPriceInfo`);
+    url.searchParams.set("serviceKey", KRX_API_KEY);
+    url.searchParams.set("resultType", "json");
+    url.searchParams.set("numOfRows", "1");
+    url.searchParams.set("likeSrtnCd", ticker);
+
+    const res = await fetch(url.toString(), {
+      next: { revalidate: 300 }, // 5min server-side cache
+    });
+    if (!res.ok) throw new Error(`KRX API ${res.status}`);
+
+    const data = await res.json();
+    const items = data?.response?.body?.items?.item || [];
+
+    if (items.length === 0) {
       return NextResponse.json({ error: "Quote not found" }, { status: 404 });
     }
-    return NextResponse.json({ quote });
+
+    const item = items[0];
+    return NextResponse.json({
+      quote: {
+        ticker: item.srtnCd,
+        name: item.itmsNm,
+        market: "KRX",
+        price: Number(item.clpr),
+        change: Number(item.vs),
+        change_percent: Number(item.fltRt),
+        volume: Number(item.trqu),
+        high: Number(item.hipr),
+        low: Number(item.lopr),
+        open: Number(item.mkp),
+        timestamp: item.basDt,
+        is_stale: false,
+      },
+    });
   } catch {
     return NextResponse.json({ error: "Failed to fetch quote" }, { status: 500 });
   }
