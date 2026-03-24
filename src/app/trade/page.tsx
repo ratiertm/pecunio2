@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import { useApp } from "@/lib/context";
 import { getStore } from "@/lib/store";
 import { getDemoQuote, getDemoHistory } from "@/lib/market/demo-data";
-import { searchKRXTickers } from "@/lib/market/krx-search";
+import { searchKRXTickers, getTickerName } from "@/lib/market/krx-search";
 import { BiasAlert } from "@/components/ui/bias-alert";
 import { useCanTrade } from "@/components/ui/onboarding";
 import type { TickerSearchResult, Quote, TradeType, BiasCheckResult } from "@/types";
@@ -507,7 +507,7 @@ export default function TradePage() {
                   return (
                     <button
                       key={h.id}
-                      onClick={() => handleSelect({ ticker: h.ticker, name: h.ticker, market: h.market })}
+                      onClick={() => handleSelect({ ticker: h.ticker, name: getTickerName(h.ticker) || h.ticker, market: h.market })}
                       className="flex w-full items-center justify-between rounded-xl px-3 py-3 text-left transition-colors hover:bg-surface-hover/50"
                     >
                       <div className="flex items-center gap-3">
@@ -515,7 +515,7 @@ export default function TradePage() {
                           {h.qty}
                         </span>
                         <div>
-                          <p className="text-[14px] font-semibold text-text-primary">{h.ticker}</p>
+                          <p className="text-[14px] font-semibold text-text-primary">{getTickerName(h.ticker) || h.ticker} <span className="text-[12px] font-normal text-text-tertiary">{h.ticker}</span></p>
                           <p className="text-[12px] text-text-tertiary">평균 {h.avg_price.toLocaleString()}원</p>
                         </div>
                       </div>

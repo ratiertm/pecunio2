@@ -1,4 +1,5 @@
 import type { Holding, Quote } from "@/types";
+import { getTickerName } from "@/lib/market/krx-search";
 
 interface HoldingsTableProps {
   holdings: (Holding & { currentPrice?: number })[];
@@ -37,6 +38,7 @@ export function HoldingsTable({ holdings }: HoldingsTableProps) {
             const pnlPercent =
               ((currentPrice - h.avg_price) / h.avg_price) * 100;
             const isPositive = pnlPercent >= 0;
+            const name = getTickerName(h.ticker);
 
             return (
               <tr
@@ -44,9 +46,9 @@ export function HoldingsTable({ holdings }: HoldingsTableProps) {
                 className="border-b border-card-border/50 transition-colors last:border-0 hover:bg-surface-hover/30"
               >
                 <td className="px-5 py-4">
-                  <span className="font-semibold text-text-primary">{h.ticker}</span>
+                  <span className="font-semibold text-text-primary">{name || h.ticker}</span>
                   <span className="ml-2 rounded-md bg-surface-hover px-1.5 py-0.5 text-[11px] font-medium text-text-tertiary">
-                    {h.market}
+                    {h.ticker}
                   </span>
                 </td>
                 <td className="px-5 py-4 text-right text-text-secondary">{h.qty}주</td>
