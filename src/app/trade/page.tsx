@@ -495,6 +495,47 @@ export default function TradePage() {
             </div>
           )}
 
+          {/* Stock info */}
+          {selected && quote && (quote as any).market_cap && (
+            <div className="card rounded-2xl p-5">
+              <h3 className="mb-3 text-[15px] font-bold text-text-primary">종목 정보</h3>
+              <div className="grid grid-cols-2 gap-x-6 gap-y-2.5">
+                <div className="flex justify-between">
+                  <span className="text-[13px] text-text-tertiary">시장</span>
+                  <span className="text-[13px] font-medium text-text-secondary">{(quote as any).marketCategory || "KRX"}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[13px] text-text-tertiary">시가</span>
+                  <span className="text-[13px] font-medium text-text-secondary">{((quote as any).open || 0).toLocaleString()}원</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[13px] text-text-tertiary">고가</span>
+                  <span className="text-[13px] font-medium text-success">{((quote as any).high || 0).toLocaleString()}원</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[13px] text-text-tertiary">저가</span>
+                  <span className="text-[13px] font-medium text-danger">{((quote as any).low || 0).toLocaleString()}원</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[13px] text-text-tertiary">거래량</span>
+                  <span className="text-[13px] font-medium text-text-secondary">{(quote.volume || 0).toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[13px] text-text-tertiary">거래대금</span>
+                  <span className="text-[13px] font-medium text-text-secondary">{formatLargeNumber((quote as any).trade_amount || 0)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[13px] text-text-tertiary">시가총액</span>
+                  <span className="text-[13px] font-medium text-text-primary">{formatLargeNumber((quote as any).market_cap || 0)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[13px] text-text-tertiary">상장주식수</span>
+                  <span className="text-[13px] font-medium text-text-secondary">{((quote as any).listed_shares || 0).toLocaleString()}</span>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* My holdings */}
           {holdings.length > 0 && (
             <div className="card rounded-2xl p-5">
@@ -579,4 +620,11 @@ export default function TradePage() {
       </div>
     </div>
   );
+}
+
+function formatLargeNumber(n: number): string {
+  if (n >= 1_0000_0000_0000) return `${(n / 1_0000_0000_0000).toFixed(1)}조`;
+  if (n >= 1_0000_0000) return `${(n / 1_0000_0000).toFixed(0)}억`;
+  if (n >= 1_0000) return `${(n / 1_0000).toFixed(0)}만`;
+  return n.toLocaleString();
 }

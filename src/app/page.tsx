@@ -148,13 +148,11 @@ function buildChartData(
     return [];
   }
 
-  // Use real snapshots
   return snapshots.map((s) => {
     const d = new Date(s.date);
     return {
       date: `${d.getMonth() + 1}/${d.getDate()}`,
       portfolio: s.totalAssets,
-      benchmark: Math.round(initialCash * (1 + 0.001 * snapshots.indexOf(s))), // ~0.1%/day benchmark
     };
   });
 }

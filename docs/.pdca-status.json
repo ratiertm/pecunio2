@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-03-24T20:00:12.916Z",
+  "lastUpdated": "2026-03-24T20:11:48.367Z",
   "activeFeatures": [
     "pecunio2",
     "market",
@@ -30,9 +30,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-23T21:05:39.767Z",
-        "lastUpdated": "2026-03-24T18:54:00.997Z"
+        "lastUpdated": "2026-03-24T20:10:36.112Z"
       },
-      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/types/index.ts"
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/app/page.tsx"
     },
     "market": {
       "phase": "do",
@@ -121,9 +121,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-23T21:13:32.335Z",
-        "lastUpdated": "2026-03-24T20:00:12.916Z"
+        "lastUpdated": "2026-03-24T20:10:16.508Z"
       },
-      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/components/dashboard/holdings-table.tsx"
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/components/dashboard/portfolio-chart.tsx"
     },
     "trade": {
       "phase": "do",
@@ -134,7 +134,7 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-23T21:13:57.184Z",
-        "lastUpdated": "2026-03-24T19:52:52.999Z"
+        "lastUpdated": "2026-03-24T20:11:48.367Z"
       },
       "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/app/trade/page.tsx"
     },
@@ -173,7 +173,7 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-23T21:17:53.495Z",
-        "lastUpdated": "2026-03-24T13:25:10.339Z"
+        "lastUpdated": "2026-03-24T20:11:05.459Z"
       },
       "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/app/api/market/quote/route.ts"
     },
@@ -238,7 +238,7 @@
   "session": {
     "startedAt": "2026-03-23T19:50:48.256Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-03-24T20:00:12.916Z"
+    "lastActivity": "2026-03-24T20:11:48.367Z"
   },
   "history": [
     {
@@ -916,6 +916,36 @@
     {
       "timestamp": "2026-03-24T20:00:12.916Z",
       "feature": "dashboard",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T20:10:16.508Z",
+      "feature": "dashboard",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T20:10:36.112Z",
+      "feature": "pecunio2",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T20:11:05.459Z",
+      "feature": "quote",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T20:11:23.617Z",
+      "feature": "trade",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T20:11:48.367Z",
+      "feature": "trade",
       "phase": "do",
       "action": "updated"
     }

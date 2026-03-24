@@ -2,16 +2,15 @@
 
 import {
   ResponsiveContainer,
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
 } from "recharts";
 
 interface PortfolioChartProps {
-  data: { date: string; portfolio: number; benchmark: number }[];
+  data: { date: string; portfolio: number }[];
 }
 
 export function PortfolioChart({ data }: PortfolioChartProps) {
@@ -26,11 +25,21 @@ export function PortfolioChart({ data }: PortfolioChartProps) {
     );
   }
 
+  const first = data[0].portfolio;
+  const last = data[data.length - 1].portfolio;
+  const isUp = last >= first;
+
   return (
     <div className="card rounded-2xl p-5">
       <div className="h-60 w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data}>
+          <AreaChart data={data}>
+            <defs>
+              <linearGradient id="portfolioGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={isUp ? "#22a66e" : "#e84057"} stopOpacity={0.15} />
+                <stop offset="100%" stopColor={isUp ? "#22a66e" : "#e84057"} stopOpacity={0} />
+              </linearGradient>
+            </defs>
             <XAxis
               dataKey="date"
               tick={{ fontSize: 12, fill: "#9e9eb0" }}
@@ -42,6 +51,7 @@ export function PortfolioChart({ data }: PortfolioChartProps) {
               tickLine={false}
               axisLine={false}
               tickFormatter={(v) => `${(v / 10000).toFixed(0)}만`}
+              domain={["auto", "auto"]}
             />
             <Tooltip
               formatter={(value) => `${Number(value).toLocaleString()}원`}
@@ -54,29 +64,17 @@ export function PortfolioChart({ data }: PortfolioChartProps) {
                 padding: "8px 12px",
               }}
             />
-            <Legend
-              iconSize={10}
-              wrapperStyle={{ fontSize: 12, paddingTop: 12, color: "#6b6b80" }}
-            />
-            <Line
+            <Area
               type="monotone"
               dataKey="portfolio"
               name="내 포트폴리오"
-              stroke="#7c5df0"
+              stroke={isUp ? "#22a66e" : "#e84057"}
               strokeWidth={2.5}
+              fill="url(#portfolioGrad)"
               dot={false}
-              activeDot={{ r: 5, fill: "#7c5df0", stroke: "#fff", strokeWidth: 2 }}
+              activeDot={{ r: 5, fill: isUp ? "#22a66e" : "#e84057", stroke: "#fff", strokeWidth: 2 }}
             />
-            <Line
-              type="monotone"
-              dataKey="benchmark"
-              name="코스피 지수"
-              stroke="#d4d0cc"
-              strokeWidth={1.5}
-              strokeDasharray="6 4"
-              dot={false}
-            />
-          </LineChart>
+          </AreaChart>
         </ResponsiveContainer>
       </div>
     </div>
