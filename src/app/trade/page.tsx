@@ -97,12 +97,25 @@ export default function TradePage() {
         const data = await res.json();
         if (data.quote) {
           setQuote(data.quote);
-          setHistory(getDemoHistory(result.ticker)); // still demo history for now
-          return;
         }
-      } catch {}
-      setQuote(getDemoQuote(result.ticker));
+      } catch {
+        setQuote(getDemoQuote(result.ticker));
+      }
     }
+
+    // Fetch real 30-day history
+    try {
+      const hRes = await fetch(`/api/market/history?ticker=${result.ticker}&days=30`);
+      const hData = await hRes.json();
+      if (hData.history && hData.history.length > 0) {
+        setHistory(hData.history.map((h: any) => ({
+          date: `${parseInt(h.date.slice(4, 6))}/${parseInt(h.date.slice(6, 8))}`,
+          price: h.price,
+        })));
+        return;
+      }
+    } catch {}
+    // Fallback to demo
     setHistory(getDemoHistory(result.ticker));
   }, []);
 
