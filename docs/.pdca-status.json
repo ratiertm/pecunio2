@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-03-24T18:58:37.155Z",
+  "lastUpdated": "2026-03-24T19:03:10.521Z",
   "activeFeatures": [
     "pecunio2",
     "market",
@@ -43,9 +43,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-23T21:06:06.433Z",
-        "lastUpdated": "2026-03-24T13:38:00.926Z"
+        "lastUpdated": "2026-03-24T19:01:19.316Z"
       },
-      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/lib/market/provider.test.ts"
+      "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/lib/market/krx-search.ts"
     },
     "trading": {
       "phase": "do",
@@ -134,7 +134,7 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-23T21:13:57.184Z",
-        "lastUpdated": "2026-03-24T18:58:37.155Z"
+        "lastUpdated": "2026-03-24T19:03:10.521Z"
       },
       "lastFile": "/Users/leeeunmi/Projects/active/pecunio2/src/app/trade/page.tsx"
     },
@@ -238,7 +238,7 @@
   "session": {
     "startedAt": "2026-03-23T19:50:48.256Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-03-24T18:58:37.155Z"
+    "lastActivity": "2026-03-24T19:03:10.521Z"
   },
   "history": [
     {
@@ -843,6 +843,48 @@
     },
     {
       "timestamp": "2026-03-24T18:58:37.155Z",
+      "feature": "trade",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T19:01:19.316Z",
+      "feature": "market",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T19:01:31.261Z",
+      "feature": "trade",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T19:01:38.198Z",
+      "feature": "trade",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T19:01:48.771Z",
+      "feature": "trade",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T19:02:19.286Z",
+      "feature": "trade",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T19:03:03.203Z",
+      "feature": "trade",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-24T19:03:10.521Z",
       "feature": "trade",
       "phase": "do",
       "action": "updated"

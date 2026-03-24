@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useApp } from "@/lib/context";
 import { getStore } from "@/lib/store";
-import { getDemoQuote, searchDemoTickers, getDemoHistory } from "@/lib/market/demo-data";
+import { getDemoQuote, getDemoHistory } from "@/lib/market/demo-data";
+import { searchKRXTickers } from "@/lib/market/krx-search";
 import { BiasAlert } from "@/components/ui/bias-alert";
 import { useCanTrade } from "@/components/ui/onboarding";
 import type { TickerSearchResult, Quote, TradeType, BiasCheckResult } from "@/types";
@@ -41,9 +42,8 @@ export default function TradePage() {
     );
   }
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<TickerSearchResult[]>([]);
-  const [searching, setSearching] = useState(false);
-  const [selected, setSelected] = useState<TickerSearchResult | null>(null);
+  const [searchResults, setSearchResults] = useState<ReturnType<typeof searchKRXTickers>>([]);
+  const [selected, setSelected] = useState<{ ticker: string; name: string; market: "KRX" | "US"; price?: number } | null>(null);
   const [quote, setQuote] = useState<Quote | null>(null);
   const [history, setHistory] = useState<{ date: string; price: number }[]>([]);
   const [qty, setQty] = useState("");
@@ -53,34 +53,14 @@ export default function TradePage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const debounceRef = React.useRef<NodeJS.Timeout | null>(null);
-
   const handleSearch = useCallback((q: string) => {
     setSearchQuery(q);
-    if (q.length < 2) {
+    if (q.length < 1) {
       setSearchResults([]);
-      setSearching(false);
       return;
     }
-
-    setSearching(true);
-
-    // Debounce: wait 300ms after last keystroke
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(async () => {
-      try {
-        const res = await fetch(`/api/market/search?q=${encodeURIComponent(q)}`);
-        const data = await res.json();
-        if (data.results && data.results.length > 0) {
-          setSearchResults(data.results);
-          setSearching(false);
-          return;
-        }
-      } catch {}
-      // Fallback to demo
-      setSearchResults(searchDemoTickers(q));
-      setSearching(false);
-    }, 300);
+    // Instant local search — no API call, no debounce
+    setSearchResults(searchKRXTickers(q, 10));
   }, []);
 
   const handleSelect = useCallback(async (result: TickerSearchResult & { price?: number; change?: number; change_percent?: number }) => {
@@ -91,29 +71,27 @@ export default function TradePage() {
     setSuccess(null);
     setBiasResult(null);
 
-    // If search result already includes price (from real API), use it
-    if (result.price) {
+    // Fetch real quote from API, fall back to local price or demo
+    try {
+      const res = await fetch(`/api/market/quote?ticker=${result.ticker}`);
+      const data = await res.json();
+      if (data.quote) {
+        setQuote(data.quote);
+      } else {
+        throw new Error("no quote");
+      }
+    } catch {
+      // Use price from local ticker list, or demo
       setQuote({
         ticker: result.ticker,
         market: result.market,
-        price: result.price,
-        change: result.change ?? 0,
-        change_percent: result.change_percent ?? 0,
+        price: result.price ?? getDemoQuote(result.ticker)?.price ?? 0,
+        change: 0,
+        change_percent: 0,
         volume: 0,
         timestamp: new Date().toISOString(),
-        is_stale: false,
+        is_stale: true,
       });
-    } else {
-      // Try real API, fall back to demo
-      try {
-        const res = await fetch(`/api/market/quote?ticker=${result.ticker}`);
-        const data = await res.json();
-        if (data.quote) {
-          setQuote(data.quote);
-        }
-      } catch {
-        setQuote(getDemoQuote(result.ticker));
-      }
     }
 
     // Fetch real 30-day history
@@ -300,26 +278,24 @@ export default function TradePage() {
             className="w-full rounded-2xl border-2 border-card-border bg-white py-3.5 pl-12 pr-5 text-[15px] text-text-primary placeholder-text-tertiary transition-all duration-200 focus:border-primary/50 focus:outline-none focus:ring-4 focus:ring-primary/10"
           />
         </div>
-        {searching && searchResults.length === 0 && (
-          <div className="absolute z-10 mt-2 w-full rounded-2xl border border-card-border bg-white px-5 py-4 text-center text-[14px] text-text-tertiary shadow-xl shadow-black/5">
-            검색 중...
-          </div>
-        )}
-        {!searching && searchResults.length > 0 && (
+        {searchResults.length > 0 && (
           <ul className="absolute z-10 mt-2 max-h-56 w-full overflow-auto rounded-2xl border border-card-border bg-white shadow-xl shadow-black/5">
             {searchResults.map((r) => (
               <li key={r.ticker}>
                 <button
                   className="flex w-full items-center justify-between px-5 py-3.5 text-left transition-colors hover:bg-surface-hover"
-                  onClick={() => handleSelect(r)}
+                  onClick={() => handleSelect({ ticker: r.ticker, name: r.name, market: r.market, price: r.price })}
                 >
-                  <span>
+                  <div>
                     <span className="text-[15px] font-semibold text-text-primary">{r.name}</span>
                     <span className="ml-2 text-[13px] text-text-tertiary">{r.ticker}</span>
-                  </span>
-                  <span className="rounded-lg bg-surface-hover px-2 py-1 text-[11px] font-medium text-text-tertiary">
-                    {r.market}
-                  </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[14px] font-medium text-text-primary">{r.price.toLocaleString()}원</span>
+                    <span className="rounded-lg bg-surface-hover px-2 py-1 text-[11px] font-medium text-text-tertiary">
+                      {r.marketCategory}
+                    </span>
+                  </div>
                 </button>
               </li>
             ))}
