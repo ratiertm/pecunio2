@@ -21,60 +21,64 @@ export function HoldingsTable({ holdings }: HoldingsTableProps) {
   }
 
   return (
-    <div className="card overflow-hidden rounded-2xl">
-      <table className="w-full text-sm">
-        <thead>
-          <tr className="border-b border-card-border bg-surface-hover/50 text-[13px] text-text-tertiary">
-            <th className="px-5 py-3.5 text-left font-medium">종목</th>
-            <th className="px-5 py-3.5 text-right font-medium">수량</th>
-            <th className="hidden px-5 py-3.5 text-right font-medium sm:table-cell">평균단가</th>
-            <th className="px-5 py-3.5 text-right font-medium">현재가</th>
-            <th className="px-5 py-3.5 text-right font-medium">수익률</th>
-          </tr>
-        </thead>
-        <tbody>
-          {holdings.map((h) => {
-            const currentPrice = h.currentPrice ?? h.avg_price;
-            const pnlPercent =
-              ((currentPrice - h.avg_price) / h.avg_price) * 100;
-            const isPositive = pnlPercent >= 0;
-            const name = getTickerName(h.ticker);
+    <div className="space-y-3">
+      {holdings.map((h) => {
+        const currentPrice = h.currentPrice ?? h.avg_price;
+        const pnlPercent = ((currentPrice - h.avg_price) / h.avg_price) * 100;
+        const pnlAmount = (currentPrice - h.avg_price) * h.qty;
+        const isPositive = pnlPercent >= 0;
+        const name = getTickerName(h.ticker);
 
-            return (
-              <tr
-                key={h.id}
-                className="border-b border-card-border/50 transition-colors last:border-0 hover:bg-surface-hover/30"
+        return (
+          <div
+            key={h.id}
+            className="card rounded-2xl p-5 transition-all duration-200 hover:shadow-md"
+          >
+            {/* Top: 종목명 + 수익률 */}
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="text-[16px] font-bold text-text-primary">
+                  {name || h.ticker}
+                </span>
+                <span className="ml-2 text-[12px] text-text-tertiary">
+                  {h.ticker}
+                </span>
+              </div>
+              <span
+                className={`rounded-xl px-3 py-1 text-[14px] font-bold ${
+                  isPositive
+                    ? "bg-success-light text-success"
+                    : "bg-danger-light text-danger"
+                }`}
               >
-                <td className="px-5 py-4">
-                  <span className="font-semibold text-text-primary">{name || h.ticker}</span>
-                  <span className="ml-2 rounded-md bg-surface-hover px-1.5 py-0.5 text-[11px] font-medium text-text-tertiary">
-                    {h.ticker}
-                  </span>
-                </td>
-                <td className="px-5 py-4 text-right text-text-secondary">{h.qty}주</td>
-                <td className="hidden px-5 py-4 text-right text-text-secondary sm:table-cell">
-                  {h.avg_price.toLocaleString()}원
-                </td>
-                <td className="px-5 py-4 text-right font-medium text-text-primary">
-                  {currentPrice.toLocaleString()}원
-                </td>
-                <td className="px-5 py-4 text-right">
-                  <span
-                    className={`inline-flex items-center rounded-lg px-2 py-1 text-sm font-bold ${
-                      isPositive
-                        ? "bg-success-light text-success"
-                        : "bg-danger-light text-danger"
-                    }`}
-                  >
-                    {isPositive ? "+" : ""}
-                    {pnlPercent.toFixed(1)}%
-                  </span>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                {isPositive ? "+" : ""}{pnlPercent.toFixed(1)}%
+              </span>
+            </div>
+
+            {/* Middle: 현재가 + 수익금 */}
+            <div className="mt-3 flex items-baseline justify-between">
+              <p className="text-[20px] font-bold text-text-primary">
+                {currentPrice.toLocaleString()}
+                <span className="ml-0.5 text-[13px] font-normal text-text-tertiary">원</span>
+              </p>
+              <p className={`text-[14px] font-semibold ${isPositive ? "text-success" : "text-danger"}`}>
+                {isPositive ? "+" : ""}{pnlAmount.toLocaleString()}원
+              </p>
+            </div>
+
+            {/* Bottom: 매입가 + 수량 */}
+            <div className="mt-2 flex items-center justify-between border-t border-card-border/50 pt-2">
+              <div className="flex gap-4 text-[13px] text-text-tertiary">
+                <span>매입가 <span className="font-medium text-text-secondary">{h.avg_price.toLocaleString()}원</span></span>
+                <span>수량 <span className="font-medium text-text-secondary">{h.qty}주</span></span>
+              </div>
+              <span className="text-[12px] text-text-tertiary">
+                평가금 {(currentPrice * h.qty).toLocaleString()}원
+              </span>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
