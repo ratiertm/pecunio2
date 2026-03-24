@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from "react";
-import { getStore } from "./store";
+import { getStore, type DailySnapshot } from "./store";
 import { getDemoQuote } from "./market/demo-data";
 import type { User, Portfolio, Holding, Trade, BiasScores, Quote } from "@/types";
 
@@ -12,6 +12,7 @@ interface AppState {
   trades: Trade[];
   biasScores: BiasScores | null;
   tradeCount: number;
+  dailySnapshots: DailySnapshot[];
   refresh: () => void;
 }
 
@@ -35,11 +36,19 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const trades = store.getTrades();
     const biasScores = store.getBiasScores();
     const tradeCount = store.getTradeCount();
+    const dailySnapshots = store.getDailySnapshots();
 
-    setState({ user, portfolio, holdings, trades, biasScores, tradeCount, refresh });
+    // Record today's snapshot
+    const holdingsValue = holdings.reduce(
+      (sum, h) => sum + (h.quote?.price ?? h.avg_price) * h.qty,
+      0
+    );
+    store.recordSnapshot(holdingsValue);
+
+    setState({ user, portfolio, holdings, trades, biasScores, tradeCount, dailySnapshots: store.getDailySnapshots(), refresh });
   }, [tick, refresh]);
 
-  if (!state) return null; // SSR guard
+  if (!state) return null;
 
   return <AppContext.Provider value={state}>{children}</AppContext.Provider>;
 }

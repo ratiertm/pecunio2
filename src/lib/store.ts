@@ -19,6 +19,13 @@ import type {
 
 const STORAGE_KEY = "pecunio2_data";
 
+export interface DailySnapshot {
+  date: string; // YYYY-MM-DD
+  totalAssets: number;
+  cash: number;
+  holdingsValue: number;
+}
+
 interface StoreData {
   user: User;
   portfolio: Portfolio;
@@ -27,6 +34,7 @@ interface StoreData {
   biasEvents: BiasEvent[];
   biasScores: BiasScores | null;
   quizAttempts: QuizAttempt[];
+  dailySnapshots: DailySnapshot[];
 }
 
 function defaultData(): StoreData {
@@ -52,6 +60,7 @@ function defaultData(): StoreData {
     biasEvents: [],
     biasScores: null,
     quizAttempts: [],
+    dailySnapshots: [],
   };
 }
 
@@ -212,6 +221,27 @@ class LocalStore {
     this.data.quizAttempts.push(newAttempt);
     this.save();
     return newAttempt;
+  }
+
+  // --- Daily Snapshots ---
+  getDailySnapshots(): DailySnapshot[] {
+    return this.data.dailySnapshots;
+  }
+
+  recordSnapshot(holdingsValue: number) {
+    const today = new Date().toISOString().slice(0, 10);
+    const cash = this.data.portfolio.current_cash;
+    const totalAssets = cash + holdingsValue;
+
+    const existing = this.data.dailySnapshots.findIndex((s) => s.date === today);
+    const snapshot: DailySnapshot = { date: today, totalAssets, cash, holdingsValue };
+
+    if (existing >= 0) {
+      this.data.dailySnapshots[existing] = snapshot;
+    } else {
+      this.data.dailySnapshots.push(snapshot);
+    }
+    this.save();
   }
 
   // --- Reset ---

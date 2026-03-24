@@ -216,6 +216,14 @@ export default function TradePage() {
       store.addXP(10);
     }
 
+    // Record portfolio snapshot after trade
+    const allHoldings = store.getHoldings();
+    const holdingsVal = allHoldings.reduce((sum, h) => {
+      const q = getDemoQuote(h.ticker);
+      return sum + (q?.price ?? h.avg_price) * h.qty;
+    }, 0);
+    store.recordSnapshot(holdingsVal);
+
     setBiasResult(null);
     setQty("");
     setSuccess(`${selected.name} ${qtyNum}주 ${tradeType === "buy" ? "매수" : "매도"} 완료!`);

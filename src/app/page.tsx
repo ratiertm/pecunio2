@@ -8,7 +8,7 @@ import { getLevelForXP } from "@/types";
 import { OnboardingBanner } from "@/components/ui/onboarding";
 
 export default function DashboardPage() {
-  const { user, portfolio, holdings, tradeCount, biasScores } = useApp();
+  const { user, portfolio, holdings, tradeCount, biasScores, dailySnapshots } = useApp();
 
   const holdingsValue = holdings.reduce(
     (sum, h) => sum + (h.quote?.price ?? h.avg_price) * h.qty,
@@ -19,8 +19,19 @@ export default function DashboardPage() {
     ((totalAssets - portfolio.initial_cash) / portfolio.initial_cash) * 100;
   const levelInfo = getLevelForXP(user.xp);
 
-  // Build chart data from portfolio value over time (simplified)
-  const chartData = buildChartData(portfolio.initial_cash, totalAssets);
+  // Build chart from real daily snapshots
+  const chartData = buildChartData(dailySnapshots, portfolio.initial_cash, totalAssets);
+
+  // Daily change
+  const prevSnapshot = dailySnapshots.length >= 2
+    ? dailySnapshots[dailySnapshots.length - 2]
+    : null;
+  const dailyChange = prevSnapshot
+    ? totalAssets - prevSnapshot.totalAssets
+    : 0;
+  const dailyChangePercent = prevSnapshot && prevSnapshot.totalAssets > 0
+    ? ((totalAssets - prevSnapshot.totalAssets) / prevSnapshot.totalAssets) * 100
+    : 0;
 
   const biasDisplay =
     tradeCount < 10
@@ -49,11 +60,16 @@ export default function DashboardPage() {
         <StatCard
           label="총 자산"
           value={`${(totalAssets / 10000).toFixed(0)}만원`}
+          sub={dailyChange !== 0
+            ? `오늘 ${dailyChange >= 0 ? "+" : ""}${(dailyChange / 10000).toFixed(1)}만원 (${dailyChangePercent >= 0 ? "+" : ""}${dailyChangePercent.toFixed(1)}%)`
+            : undefined
+          }
         />
         <StatCard
           label="총 수익률"
           value={`${totalReturn >= 0 ? "+" : ""}${totalReturn.toFixed(1)}%`}
           color={totalReturn >= 0 ? "up" : "down"}
+          sub={`초기 ${(portfolio.initial_cash / 10000).toFixed(0)}만원 대비`}
         />
         <StatCard
           label="편향 점수"
@@ -69,7 +85,14 @@ export default function DashboardPage() {
 
       {/* Portfolio chart */}
       <div>
-        <h2 className="section-title mb-4">포트폴리오 성장</h2>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="section-title">포트폴리오 성장</h2>
+          {dailySnapshots.length > 0 && (
+            <span className="text-[12px] text-text-tertiary">
+              {dailySnapshots.length}일 기록
+            </span>
+          )}
+        </div>
         <PortfolioChart data={chartData} />
       </div>
 
@@ -110,22 +133,28 @@ export default function DashboardPage() {
   );
 }
 
-function buildChartData(initial: number, current: number) {
-  // Simple linear interpolation for demo
-  const days = 14;
-  const data = [];
-  for (let i = 0; i <= days; i++) {
-    const progress = i / days;
-    const date = new Date();
-    date.setDate(date.getDate() - days + i);
-    const dateStr = `${date.getMonth() + 1}/${date.getDate()}`;
-    // Add some noise
-    const noise = Math.sin(i * 1.5) * (current - initial) * 0.1;
-    data.push({
-      date: dateStr,
-      portfolio: Math.round(initial + (current - initial) * progress + noise),
-      benchmark: Math.round(initial * (1 + progress * 0.03)), // 3% benchmark
-    });
+interface Snapshot {
+  date: string;
+  totalAssets: number;
+}
+
+function buildChartData(
+  snapshots: Snapshot[],
+  initialCash: number,
+  currentAssets: number
+) {
+  if (snapshots.length === 0) {
+    // No history yet — show just today
+    return [];
   }
-  return data;
+
+  // Use real snapshots
+  return snapshots.map((s) => {
+    const d = new Date(s.date);
+    return {
+      date: `${d.getMonth() + 1}/${d.getDate()}`,
+      portfolio: s.totalAssets,
+      benchmark: Math.round(initialCash * (1 + 0.001 * snapshots.indexOf(s))), // ~0.1%/day benchmark
+    };
+  });
 }
